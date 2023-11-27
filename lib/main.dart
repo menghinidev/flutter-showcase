@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sandbox/feature/features.dart';
 
 import 'feature/camera/router/bottom_nav_bar_item.dart';
-import 'feature/camera/ui/camera_showcase_screen.dart';
+import 'feature/camera/router/camera_showcase_screen.dart';
 import 'feature/shimmer/router/bottom_nav_bar_item.dart';
-import 'feature/shimmer/ui/shimmer_showcase_screen.dart';
+import 'feature/shimmer/router/shimmer_showcase_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
