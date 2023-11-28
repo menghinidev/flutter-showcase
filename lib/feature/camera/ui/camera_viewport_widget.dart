@@ -67,6 +67,7 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget> wit
       await controller!.initialize();
       if (!mounted) return;
     } catch (e) {
+      _disposeCamera();
       if (e is CameraException) {
         if (widget.onPermissionDenied != null) widget.onPermissionDenied!(e);
       }
@@ -81,11 +82,12 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget> wit
   _setState() => setState(() {});
 
   Future<void> _disposeCamera() async {
-    if (controller != null) {
+    if (controller == null) return Future.value();
+    if (controller!.value.isInitialized) {
       controller!.removeListener(_setState);
       await controller!.stopImageStream();
-      controller!.dispose();
     }
+    controller!.dispose();
     return Future.value();
   }
 
