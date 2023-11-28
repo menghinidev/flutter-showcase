@@ -5,7 +5,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
-import 'package:sandbox/utils/gateway_operation.dart';
 
 final mlkitControllerProvider = Provider<MlKitController>((ref) {
   return MlKitController();
@@ -69,62 +68,21 @@ class MlKitController {
 
   Future<bool> scan(
     InputImage image, {
-    required Function(List<Barcode> values) onScanned,
+    required Future<dynamic> Function(List<Barcode> values) onScanned,
   }) async {
     var validFormat = [BarcodeFormat.dataMatrix, BarcodeFormat.all];
     var scanner = BarcodeScanner(formats: validFormat);
     var barcodes = await scanner.processImage(image);
 
     if (barcodes.isNotEmpty) {
-      GatewayController.refresh(() => onScanned(barcodes));
-      return Future.value(false);
+      onScanned(barcodes);
+      return Future.value(true);
     }
 
     for (Barcode barcode in barcodes) {
       log(barcode.type.name);
-      switch (barcode.type) {
-        case BarcodeType.wifi:
-          final barcodeWifi = barcode.value as BarcodeWifi;
-          break;
-        case BarcodeType.url:
-          final barcodeUrl = barcode.value as BarcodeUrl;
-          break;
-        case BarcodeType.unknown:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.contactInfo:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.email:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.isbn:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.phone:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.product:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.sms:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.text:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.geoCoordinates:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.calendarEvent:
-          // TODO: Handle this case.
-          break;
-        case BarcodeType.driverLicense:
-          // TODO: Handle this case.
-          break;
-      }
     }
 
-    return Future.value(true);
+    return Future.value(false);
   }
 }

@@ -19,7 +19,7 @@ class ShowcaseDrawer extends ConsumerWidget with CameraUIProperty {
             if (features.contains(ShowcaseFeature.camera)) ...[
               ShowcaseDrawerMenuItem(
                 title: 'Camera',
-                icon: camera_icon,
+                icon: cameraIcon,
                 onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.camera,
               ),
               const SizedBox(height: 16.0),

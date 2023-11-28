@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sandbox/feature/camera/application/available_camera_provider.dart';
@@ -11,27 +12,50 @@ final isScanCompletedProvider = StateProvider<bool>((ref) {
 });
 
 class CameraShowcaseScreen extends ConsumerWidget {
-  const CameraShowcaseScreen({super.key});
+  final Function(String? value) onScanned;
+  final Function()? onManualInsert;
+  final String description;
+  final Function(CameraException error)? onPermissionDenied;
+
+  const CameraShowcaseScreen({
+    super.key,
+    required this.onScanned,
+    this.onManualInsert,
+    required this.description,
+    this.onPermissionDenied,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var camera = ref.watch(currentCameraProvider);
-    var isScanCompleted = ref.watch(isScanCompletedProvider);
     if (camera == null) return Container();
     return CameraViewportWidget(
       camera: camera,
+      overlayDescription: description,
+      onPermissionDenied: onPermissionDenied,
       onImageProcessed: (controller, image) async {
-        if (isScanCompleted) return Future.value(isScanCompleted);
+        /* var isScanCompleted = ref.read(isScanCompletedProvider);
+        if (isScanCompleted) return Future.value(true); */
         var input = ref.read(mlkitControllerProvider).createInputImageFromCameraImage(
               controller,
               camera,
               image,
             );
         if (input == null) return Future.value(false);
-        var response = await ref
-            .read(mlkitControllerProvider)
-            .scan(input, onScanned: (code) => log('Code scanned: ${code.length}'));
-        if (response) ref.read(isScanCompletedProvider.notifier).state = true;
+        return await ref.read(mlkitControllerProvider).scan(input, onScanned: (code) {
+          var isScanCompleted = ref.read(isScanCompletedProvider);
+          log('Code found');
+          if (!isScanCompleted) {
+            ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+              SnackBar(
+                content: Text('Scanned: ${code.length}'),
+                showCloseIcon: true,
+              ),
+            );
+            ref.read(isScanCompletedProvider.notifier).state = true;
+          }
+          return Future.value();
+        });
       },
     );
   }
