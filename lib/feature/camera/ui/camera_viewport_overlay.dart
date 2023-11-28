@@ -5,13 +5,17 @@ import 'package:sandbox/feature/camera/application/available_camera_provider.dar
 import 'package:sandbox/feature/camera/ui/camera_ui_properties.dart';
 import 'package:sandbox/utils/provider_extension.dart';
 
-class CameraViewportOverlay extends ConsumerWidget {
+class CameraViewportOverlay extends ConsumerWidget with CameraUIProperty {
   final CameraDescription currentCamera;
+  final FlashMode flashMode;
   final Function(CameraDescription value) onCameraChanged;
+  final Function(FlashMode mode) onFlashChanged;
   const CameraViewportOverlay({
     super.key,
     required this.onCameraChanged,
     required this.currentCamera,
+    required this.flashMode,
+    required this.onFlashChanged,
   });
 
   @override
@@ -28,10 +32,15 @@ class CameraViewportOverlay extends ConsumerWidget {
           children: [
             for (var camera in value) ...[
               ElevatedButton(
-                onPressed: currentCamera == camera ? null : () => onCameraChanged(camera),
+                onPressed: () => onCameraChanged(camera),
                 child: Icon(camera.icon),
               ),
             ],
+            OutlinedButton(
+              onPressed: () =>
+                  flashMode == FlashMode.torch ? onFlashChanged(FlashMode.off) : onFlashChanged(FlashMode.torch),
+              child: Icon(flashMode == FlashMode.torch ? flash_off_icon : flash_on_icon),
+            ),
           ],
         ),
       ),

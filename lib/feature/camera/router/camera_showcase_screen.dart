@@ -10,6 +10,9 @@ class CameraShowcaseScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var camera = ref.watch(currentCameraProvider);
     if (camera == null) return Container();
-    return CameraViewportWidget(camera: camera);
+    return CameraViewportWidget(
+      camera: camera,
+      onImageProcessed: (image) => print(image.planes.first.bytesPerPixel),
+    );
   }
 }
