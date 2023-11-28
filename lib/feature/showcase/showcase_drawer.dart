@@ -16,11 +16,19 @@ class ShowcaseDrawer extends ConsumerWidget with CameraUIProperty {
       child: SafeArea(
         child: Column(
           children: [
-            if (features.contains(ShowcaseFeature.camera)) ...[
+            if (features.contains(ShowcaseFeature.qrCodeScanner)) ...[
               ShowcaseDrawerMenuItem(
-                title: 'Camera',
+                title: 'QR Code',
                 icon: cameraIcon,
-                onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.camera,
+                onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.qrCodeScanner,
+              ),
+              const SizedBox(height: 16.0),
+            ],
+            if (features.contains(ShowcaseFeature.dataMatrixScanner)) ...[
+              ShowcaseDrawerMenuItem(
+                title: 'Data matrix',
+                icon: cameraIcon,
+                onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.dataMatrixScanner,
               ),
               const SizedBox(height: 16.0),
             ],

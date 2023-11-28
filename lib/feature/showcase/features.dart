@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ShowcaseFeature {
-  camera,
+  qrCodeScanner,
+  dataMatrixScanner,
   shimmer,
 }
 
 final showcaseFeturesProvider = Provider<List<ShowcaseFeature>>((ref) {
-  return [ShowcaseFeature.camera, ShowcaseFeature.shimmer];
+  return [ShowcaseFeature.qrCodeScanner, ShowcaseFeature.dataMatrixScanner, ShowcaseFeature.shimmer];
 });

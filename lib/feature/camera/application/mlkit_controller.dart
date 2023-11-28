@@ -69,9 +69,9 @@ class MlKitController {
   Future<bool> scan(
     InputImage image, {
     required Future<dynamic> Function(List<Barcode> values) onScanned,
+    required List<BarcodeFormat> validFormats,
   }) async {
-    var validFormat = [BarcodeFormat.dataMatrix, BarcodeFormat.all];
-    var scanner = BarcodeScanner(formats: validFormat);
+    var scanner = BarcodeScanner(formats: validFormats);
     var barcodes = await scanner.processImage(image);
 
     if (barcodes.isNotEmpty) {

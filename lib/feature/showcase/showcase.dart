@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sandbox/feature/camera/router/data_matrix_scanner_showcase_screen.dart';
 
 import '../camera/router/bottom_nav_bar_item.dart';
-import '../camera/router/camera_showcase_screen.dart';
+import '../camera/router/qr_code_scanner_showcase_screen.dart';
 import '../shimmer/router/bottom_nav_bar_item.dart';
 import '../shimmer/router/shimmer_showcase_screen.dart';
 import 'features.dart';
 import 'showcase_drawer.dart';
 
 final showcasePageProvider = StateProvider<ShowcaseFeature>((ref) {
-  return ShowcaseFeature.camera;
+  return ShowcaseFeature.qrCodeScanner;
 });
 
 extension IndexFeature on StateController<ShowcaseFeature> {
@@ -30,8 +31,12 @@ class ShowcaseScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Showcase App')),
       body: SafeArea(
         child: <Widget>[
-          CameraShowcaseScreen(
-            description: 'Descrizione',
+          QRCodeScannerShowcaseScreen(
+            onScanned: (value) => print('Code scanned'),
+            onManualInsert: () => print('Manual insert required'),
+            onPermissionDenied: (error) => print(error.code),
+          ),
+          DataMatrixScannerShowcaseScreen(
             onScanned: (value) => print('Code scanned'),
             onManualInsert: () => print('Manual insert required'),
             onPermissionDenied: (error) => print(error.code),
@@ -43,7 +48,8 @@ class ShowcaseScreen extends ConsumerWidget {
         currentIndex: currentFeature.index,
         onTap: (index) => ref.read(showcasePageProvider.notifier).changeFromIndex(index),
         items: [
-          SandboxCameraRouteNavigationItem(),
+          QRCodeScannerRouteNavigationItem(),
+          DataMatrixScannerRouteNavigationItem(),
           SandboxShimmerRouteNavigationItem(),
         ],
       ),

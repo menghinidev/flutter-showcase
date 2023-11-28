@@ -3,22 +3,19 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sandbox/feature/showcase/features.dart';
-import 'package:sandbox/feature/showcase/showcase.dart';
 
 import 'camera_permission_denied_widget.dart';
-import 'camera_viewport_overlay.dart';
 
 class CameraViewportWidget extends ConsumerStatefulWidget {
   final CameraDescription camera;
-  final String overlayDescription;
+  final Widget Function(CameraController controller) overlayBuilder;
   final Function(CameraException error)? onPermissionDenied;
   final Function(CameraController controller, CameraImage image) onImageProcessed;
 
   const CameraViewportWidget({
     super.key,
     required this.camera,
-    required this.overlayDescription,
+    required this.overlayBuilder,
     required this.onImageProcessed,
     this.onPermissionDenied,
   });
@@ -29,7 +26,6 @@ class CameraViewportWidget extends ConsumerStatefulWidget {
 
 class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget> with WidgetsBindingObserver {
   CameraController? controller;
-  final resolutionPreset = ResolutionPreset.medium;
 
   @override
   void initState() {
@@ -37,7 +33,7 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget> wit
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       controller = CameraController(
         widget.camera,
-        resolutionPreset,
+        ResolutionPreset.medium,
         imageFormatGroup: Platform.isAndroid ? ImageFormatGroup.nv21 : ImageFormatGroup.bgra8888,
       );
       _initializeCamera();
@@ -94,25 +90,35 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget> wit
   @override
   Widget build(BuildContext context) {
     if (!(controller?.value.isInitialized ?? false)) return const CameraPermissionDeniedWidget();
+    return _FullscreenViewportScaler(
+      cameraAspectRatio: controller!.value.aspectRatio,
+      overlayWidget: widget.overlayBuilder(controller!),
+      child: CameraPreview(controller!),
+    );
+  }
+}
+
+class _FullscreenViewportScaler extends StatelessWidget {
+  final Widget child;
+  final double cameraAspectRatio;
+  final Widget overlayWidget;
+
+  const _FullscreenViewportScaler({
+    required this.child,
+    required this.cameraAspectRatio,
+    required this.overlayWidget,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    final scale = 1 / (controller!.value.aspectRatio * mediaSize.aspectRatio);
+    final scale = 1 / (cameraAspectRatio * mediaSize.aspectRatio);
     return ClipRect(
       clipper: _FullscreenViewportSizeClipper(mediaSize),
       child: Stack(
         children: [
-          Transform.scale(
-            scale: scale,
-            alignment: Alignment.topCenter,
-            child: CameraPreview(controller!),
-          ),
-          CameraViewportOverlay(
-            onManualInsert: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.shimmer,
-            description: widget.overlayDescription,
-            flashMode: controller!.value.flashMode,
-            onFlashChanged: (mode) => controller!.setFlashMode(mode),
-            currentCamera: controller!.description,
-            onCameraChanged: (value) => controller!.setDescription(value),
-          ),
+          Transform.scale(scale: scale, alignment: Alignment.topCenter, child: child),
+          overlayWidget,
         ],
       ),
     );
