@@ -597,7 +597,11 @@ packages:
     description:
       name: shimmer
       sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
+<<<<<<< HEAD
       url: "https://artifactory.gbm.lan/artifactory/api/pub/pub_virtual/"
+=======
+      url: "https://pub.dev"
+>>>>>>> 2c7e41a0d63504804fd11a6ec423962a4980d2e6
     source: hosted
     version: "3.0.0"
   sky_engine:
