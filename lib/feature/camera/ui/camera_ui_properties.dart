@@ -15,4 +15,5 @@ extension CameraUIDescription on CameraDescription {
 mixin CameraUIProperty {
   IconData get flash_on_icon => Icons.flash_on;
   IconData get flash_off_icon => Icons.flash_off;
+  IconData get camera_icon => Icons.camera;
 }
