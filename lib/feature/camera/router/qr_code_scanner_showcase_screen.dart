@@ -12,11 +12,13 @@ import '../ui/scanner_camera_widget.dart';
 class QRCodeScannerShowcaseScreen extends ConsumerWidget {
   final Function(Barcode value) onScanned;
   final Function()? onManualInsert;
+  final String description;
   final Function(CameraException error)? onPermissionDenied;
 
   const QRCodeScannerShowcaseScreen({
     super.key,
     required this.onScanned,
+    required this.description,
     this.onManualInsert,
     this.onPermissionDenied,
   });
@@ -34,7 +36,7 @@ class QRCodeScannerShowcaseScreen extends ConsumerWidget {
       onManualInsert: onManualInsert,
       overlayBuilder: (controller) => QRCodeCameraOverlay(
         onManualInsert: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.shimmer,
-        description: "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata",
+        description: description,
         flashMode: controller.value.flashMode,
         onFlashChanged: (mode) => controller.setFlashMode(mode),
         currentCamera: controller.description,

@@ -12,11 +12,13 @@ import '../ui/scanner_camera_widget.dart';
 class DataMatrixScannerShowcaseScreen extends ConsumerWidget {
   final Function(Barcode value) onScanned;
   final Function()? onManualInsert;
+  final String description;
   final Function(CameraException error)? onPermissionDenied;
 
   const DataMatrixScannerShowcaseScreen({
     super.key,
     required this.onScanned,
+    required this.description,
     this.onManualInsert,
     this.onPermissionDenied,
   });

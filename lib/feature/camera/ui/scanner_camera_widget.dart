@@ -46,6 +46,7 @@ class ScannerCameraWidget extends ConsumerWidget {
         return await ref.read(mlkitControllerProvider).scan(input, validFormats: validFormats, onScanned: (code) {
           var isScanCompleted = ref.read(isScanCompletedProvider);
           if (!isScanCompleted) {
+            onScanned(code);
             ScaffoldMessenger.maybeOf(context)?.showSnackBar(
               SnackBar(
                 content: Text('Scanned: ${code.length}'),

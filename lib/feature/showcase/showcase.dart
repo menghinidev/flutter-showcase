@@ -32,11 +32,16 @@ class ShowcaseScreen extends ConsumerWidget {
       body: SafeArea(
         child: <Widget>[
           QRCodeScannerShowcaseScreen(
-            onScanned: (value) => print('Code scanned'),
+            description: "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata",
+            onScanned: (value) {
+              var content = value.rawValue;
+              print('Code scanned');
+            },
             onManualInsert: () => print('Manual insert required'),
             onPermissionDenied: (error) => print(error.code),
           ),
           DataMatrixScannerShowcaseScreen(
+            description: "Inquadra il Datamatrix sul tuo bollettino all'interno dell'area evidenziata",
             onScanned: (value) => print('Code scanned'),
             onManualInsert: () => print('Manual insert required'),
             onPermissionDenied: (error) => print(error.code),
