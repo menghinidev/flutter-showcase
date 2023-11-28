@@ -30,7 +30,12 @@ class ShowcaseScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Showcase App')),
       body: SafeArea(
         child: <Widget>[
-          const CameraShowcaseScreen(),
+          CameraShowcaseScreen(
+            description: 'Descrizione',
+            onScanned: (value) => print('Code scanned'),
+            onManualInsert: () => print('Manual insert required'),
+            onPermissionDenied: (error) => print(error.code),
+          ),
           const ShimmerShowcaseScreen(),
         ][currentFeature.index],
       ),

@@ -6,14 +6,11 @@ class ShimmerShowcaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () => Future.delayed(const Duration(seconds: 2), () => print('completed')),
-      child: const CustomScrollView(
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        slivers: [
-          SliverToBoxAdapter(child: ShowcaseShimmerWidget()),
-        ],
-      ),
+    return const CustomScrollView(
+      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      slivers: [
+        SliverToBoxAdapter(child: ShowcaseShimmerWidget()),
+      ],
     );
   }
 }
