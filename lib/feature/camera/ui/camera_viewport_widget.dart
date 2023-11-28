@@ -9,7 +9,7 @@ import 'camera_viewport_overlay.dart';
 
 class CameraViewportWidget extends ConsumerStatefulWidget {
   final CameraDescription camera;
-  final Function(CameraImage image) onImageProcessed;
+  final Function(CameraController controller, CameraImage image) onImageProcessed;
 
   const CameraViewportWidget({
     super.key,
@@ -65,12 +65,15 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget> wit
     }
     setState(() {});
     controller!.addListener(() => setState(() {}));
-    controller!.startImageStream(widget.onImageProcessed);
+    controller!.startImageStream((image) => widget.onImageProcessed(controller!, image));
     return Future.value();
   }
 
   Future<void> _disposeCamera() async {
-    if (controller != null) controller!.dispose();
+    if (controller != null) {
+      await controller!.stopImageStream();
+      controller!.dispose();
+    }
     return Future.value();
   }
 

@@ -66,16 +66,21 @@ class MlKitController {
     );
   }
 
-  Future<void> scan(InputImage image) async {
+  Future<bool> scan(
+    InputImage image, {
+    required Function(List<Barcode> values) onScanned,
+  }) async {
     var validFormat = [BarcodeFormat.dataMatrix, BarcodeFormat.all];
     var scanner = BarcodeScanner(formats: validFormat);
     var barcodes = await scanner.processImage(image);
 
+    if (barcodes.isNotEmpty) {
+      onScanned(barcodes);
+      return Future.value(false);
+    }
+
     for (Barcode barcode in barcodes) {
-      // See API reference for complete list of supported types
-
       log(barcode.type.name);
-
       switch (barcode.type) {
         case BarcodeType.wifi:
           final barcodeWifi = barcode.value as BarcodeWifi;
@@ -118,5 +123,7 @@ class MlKitController {
           break;
       }
     }
+
+    return Future.value(true);
   }
 }
