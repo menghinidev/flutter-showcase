@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
+import 'package:sandbox/utils/gateway_operation.dart';
 
 final mlkitControllerProvider = Provider<MlKitController>((ref) {
   return MlKitController();
@@ -75,7 +76,7 @@ class MlKitController {
     var barcodes = await scanner.processImage(image);
 
     if (barcodes.isNotEmpty) {
-      onScanned(barcodes);
+      GatewayController.refresh(() => onScanned(barcodes));
       return Future.value(false);
     }
 
