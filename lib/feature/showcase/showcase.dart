@@ -35,7 +35,7 @@ class ShowcaseScreen extends ConsumerWidget {
             description: "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata",
             onScanned: (value) {
               var content = value.rawValue;
-              print('Code scanned');
+              print('Code scanned: $content');
             },
             onManualInsert: () => print('Manual insert required'),
             onPermissionDenied: (error) => print(error.code),
