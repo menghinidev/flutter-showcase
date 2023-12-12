@@ -4,11 +4,11 @@ import 'package:sandbox/feature/showcase/router/showcase_router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: SandboxApp()));
+  runApp(const ProviderScope(child: FlutterSandboxApp()));
 }
 
-class SandboxApp extends ConsumerWidget {
-  const SandboxApp({super.key});
+class FlutterSandboxApp extends ConsumerWidget {
+  const FlutterSandboxApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

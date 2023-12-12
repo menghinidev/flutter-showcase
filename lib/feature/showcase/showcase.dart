@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sandbox/feature/camera/application/barcode_extensions.dart';
 import 'package:sandbox/feature/camera/router/data_matrix_scanner_showcase_screen.dart';
 
 import '../camera/router/bottom_nav_bar_item.dart';
@@ -21,6 +22,10 @@ extension IndexFeature on StateController<ShowcaseFeature> {
 }
 
 class ShowcaseScreen extends ConsumerWidget {
+  final qrDescription =
+      "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata";
+  final dataMatrixDescription =
+      "Inquadra il Datamatrix sul tuo bollettino all'interno dell'area evidenziata";
   const ShowcaseScreen({super.key});
 
   @override
@@ -32,30 +37,35 @@ class ShowcaseScreen extends ConsumerWidget {
       body: SafeArea(
         child: <Widget>[
           QRCodeScannerShowcaseScreen(
-            description: "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata",
+            description: qrDescription,
             onScanned: (value) {
               var content = value.rawValue;
-              print('Code scanned');
+              print('Code scanned: $content');
             },
             onManualInsert: () => print('Manual insert required'),
-            onPermissionDenied: (error) => print(error.code),
+            onPermissionDenied: () {},
           ),
           DataMatrixScannerShowcaseScreen(
-            description: "Inquadra il Datamatrix sul tuo bollettino all'interno dell'area evidenziata",
-            onScanned: (value) => print('Code scanned'),
+            description: dataMatrixDescription,
+            onScanned: (value) {
+              var content = value.rawValue;
+              print('Code scanned: $content');
+              value.getDatamatrixPayload();
+            },
             onManualInsert: () => print('Manual insert required'),
-            onPermissionDenied: (error) => print(error.code),
+            onPermissionDenied: () {},
           ),
           const ShimmerShowcaseScreen(),
         ][currentFeature.index],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentFeature.index,
-        onTap: (index) => ref.read(showcasePageProvider.notifier).changeFromIndex(index),
+        onTap: (index) =>
+            ref.read(showcasePageProvider.notifier).changeFromIndex(index),
         items: [
           QRCodeScannerRouteNavigationItem(),
           DataMatrixScannerRouteNavigationItem(),
-          SandboxShimmerRouteNavigationItem(),
+          sandboxShimmerRouteNavigationItem(),
         ],
       ),
     );

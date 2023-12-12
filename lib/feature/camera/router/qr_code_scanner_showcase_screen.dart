@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
@@ -13,14 +12,14 @@ class QRCodeScannerShowcaseScreen extends ConsumerWidget {
   final Function(Barcode value) onScanned;
   final Function()? onManualInsert;
   final String description;
-  final Function(CameraException error)? onPermissionDenied;
+  final Function() onPermissionDenied;
 
   const QRCodeScannerShowcaseScreen({
     super.key,
     required this.onScanned,
     required this.description,
+    required this.onPermissionDenied,
     this.onManualInsert,
-    this.onPermissionDenied,
   });
 
   @override
@@ -35,7 +34,8 @@ class QRCodeScannerShowcaseScreen extends ConsumerWidget {
       },
       onManualInsert: onManualInsert,
       overlayBuilder: (controller) => QRCodeCameraOverlay(
-        onManualInsert: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.shimmer,
+        onManualInsert: () => ref.read(showcasePageProvider.notifier).state =
+            ShowcaseFeature.shimmer,
         description: description,
         flashMode: controller.value.flashMode,
         onFlashChanged: (mode) => controller.setFlashMode(mode),

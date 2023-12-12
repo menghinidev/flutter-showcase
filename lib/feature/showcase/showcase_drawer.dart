@@ -39,7 +39,7 @@ class ShowcaseDrawer extends ConsumerWidget with CameraUIProperty {
                 title: 'Shimmer',
                 icon: Icons.refresh,
                 onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.shimmer,
-              ),
+              )
             ],
             if (features.contains(ShowcaseFeature.sliver)) ...[
               ShowcaseDrawerMenuItem(
