@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sandbox/feature/camera/ui/camera_ui_properties.dart';
+import 'package:sandbox/feature/showcase/router/showcase_router.dart';
+import 'package:sandbox/feature/sliver/router/sliver_showcase_route.dart';
 
 import 'features.dart';
 import 'showcase.dart';
@@ -37,7 +39,14 @@ class ShowcaseDrawer extends ConsumerWidget with CameraUIProperty {
                 title: 'Shimmer',
                 icon: Icons.refresh,
                 onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.shimmer,
-              )
+              ),
+            ],
+            if (features.contains(ShowcaseFeature.sliver)) ...[
+              ShowcaseDrawerMenuItem(
+                title: 'Sliver',
+                icon: Icons.list,
+                onTap: () => ref.read(showcaseRouterProvider).go(SliverShowcaseRoute.fromHome()),
+              ),
             ],
           ],
         ),

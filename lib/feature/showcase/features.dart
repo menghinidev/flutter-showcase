@@ -4,8 +4,14 @@ enum ShowcaseFeature {
   qrCodeScanner,
   dataMatrixScanner,
   shimmer,
+  sliver,
 }
 
 final showcaseFeturesProvider = Provider<List<ShowcaseFeature>>((ref) {
-  return [ShowcaseFeature.qrCodeScanner, ShowcaseFeature.dataMatrixScanner, ShowcaseFeature.shimmer];
+  return [
+    ShowcaseFeature.qrCodeScanner,
+    ShowcaseFeature.dataMatrixScanner,
+    ShowcaseFeature.shimmer,
+    ShowcaseFeature.sliver,
+  ];
 });

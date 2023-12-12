@@ -10,7 +10,7 @@ import 'features.dart';
 import 'showcase_drawer.dart';
 
 final showcasePageProvider = StateProvider<ShowcaseFeature>((ref) {
-  return ShowcaseFeature.qrCodeScanner;
+  return ShowcaseFeature.shimmer;
 });
 
 extension IndexFeature on StateController<ShowcaseFeature> {

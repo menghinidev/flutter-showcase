@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sandbox/feature/showcase/showcase.dart';
+import 'package:sandbox/feature/showcase/router/showcase_router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,9 +12,10 @@ class SandboxApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    var router = ref.watch(showcaseRouterProvider);
+    return MaterialApp.router(
       theme: ThemeData.fallback(useMaterial3: true),
-      home: const ShowcaseScreen(),
+      routerConfig: router,
     );
   }
 }
