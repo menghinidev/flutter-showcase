@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
@@ -13,14 +12,14 @@ class DataMatrixScannerShowcaseScreen extends ConsumerWidget {
   final Function(Barcode value) onScanned;
   final Function()? onManualInsert;
   final String description;
-  final Function(CameraException error)? onPermissionDenied;
+  final Function() onPermissionDenied;
 
   const DataMatrixScannerShowcaseScreen({
     super.key,
     required this.onScanned,
     required this.description,
+    required this.onPermissionDenied,
     this.onManualInsert,
-    this.onPermissionDenied,
   });
 
   @override
@@ -35,8 +34,10 @@ class DataMatrixScannerShowcaseScreen extends ConsumerWidget {
       },
       onManualInsert: onManualInsert,
       overlayBuilder: (controller) => DataMatrixCameraOverlay(
-        onManualInsert: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.shimmer,
-        description: "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata",
+        onManualInsert: () => ref.read(showcasePageProvider.notifier).state =
+            ShowcaseFeature.shimmer,
+        description:
+            "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata",
         flashMode: controller.value.flashMode,
         onFlashChanged: (mode) => controller.setFlashMode(mode),
         currentCamera: controller.description,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SandboxShimmerRouteNavigationItem extends BottomNavigationBarItem {
-  SandboxShimmerRouteNavigationItem()
+class sandboxShimmerRouteNavigationItem extends BottomNavigationBarItem {
+  sandboxShimmerRouteNavigationItem()
       : super(
           icon: const Icon(Icons.refresh),
           label: 'Shimmer',
