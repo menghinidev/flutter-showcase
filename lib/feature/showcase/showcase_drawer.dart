@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sandbox/feature/camera/ui/camera_ui_properties.dart';
+import 'package:sandbox/feature/pagination/router/pagination_showcase_route.dart';
 import 'package:sandbox/feature/showcase/router/showcase_router.dart';
 import 'package:sandbox/feature/sliver/router/sliver_showcase_route.dart';
 
@@ -46,6 +47,13 @@ class ShowcaseDrawer extends ConsumerWidget with CameraUIProperty {
                 title: 'Sliver',
                 icon: Icons.list,
                 onTap: () => ref.read(showcaseRouterProvider).go(SliverShowcaseRoute.fromHome()),
+              ),
+            ],
+            if (features.contains(ShowcaseFeature.pagination)) ...[
+              ShowcaseDrawerMenuItem(
+                title: 'Pagination',
+                icon: Icons.network_cell_outlined,
+                onTap: () => ref.read(showcaseRouterProvider).go(PaginationShowcaseRoute.fromHome()),
               ),
             ],
           ],

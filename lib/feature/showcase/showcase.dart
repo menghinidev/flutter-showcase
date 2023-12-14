@@ -22,10 +22,8 @@ extension IndexFeature on StateController<ShowcaseFeature> {
 }
 
 class ShowcaseScreen extends ConsumerWidget {
-  final qrDescription =
-      "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata";
-  final dataMatrixDescription =
-      "Inquadra il Datamatrix sul tuo bollettino all'interno dell'area evidenziata";
+  final qrDescription = "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata";
+  final dataMatrixDescription = "Inquadra il Datamatrix sul tuo bollettino all'interno dell'area evidenziata";
   const ShowcaseScreen({super.key});
 
   @override
@@ -60,12 +58,11 @@ class ShowcaseScreen extends ConsumerWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentFeature.index,
-        onTap: (index) =>
-            ref.read(showcasePageProvider.notifier).changeFromIndex(index),
+        onTap: (index) => ref.read(showcasePageProvider.notifier).changeFromIndex(index),
         items: [
           QRCodeScannerRouteNavigationItem(),
           DataMatrixScannerRouteNavigationItem(),
-          sandboxShimmerRouteNavigationItem(),
+          SandboxShimmerRouteNavigationItem(),
         ],
       ),
     );

@@ -5,6 +5,7 @@ enum ShowcaseFeature {
   dataMatrixScanner,
   shimmer,
   sliver,
+  pagination,
 }
 
 final showcaseFeturesProvider = Provider<List<ShowcaseFeature>>((ref) {
@@ -13,5 +14,6 @@ final showcaseFeturesProvider = Provider<List<ShowcaseFeature>>((ref) {
     ShowcaseFeature.dataMatrixScanner,
     ShowcaseFeature.shimmer,
     ShowcaseFeature.sliver,
+    ShowcaseFeature.pagination,
   ];
 });
