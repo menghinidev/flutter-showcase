@@ -54,9 +54,8 @@ class _ScannerCameraWidgetState extends ConsumerState<ScannerCameraWidget> {
                   image,
                 );
         if (input == null) return Future.value(false);
-        return await ref
-            .read(mlkitControllerProvider)
-            .scan(input, validFormats: widget.validFormats, onScanned: (code) {
+        return await ref.read(mlkitControllerProvider).scanBarcode(input,
+            validFormats: widget.validFormats, onScanned: (code) {
           if (!hasScanned) {
             widget.onScanned(code);
             ScaffoldMessenger.maybeOf(context)?.showSnackBar(

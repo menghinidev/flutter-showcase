@@ -11,7 +11,6 @@ class DataMatrixCameraOverlay extends StatelessWidget with CameraUIProperty {
   final String description;
   final Function(CameraDescription value) onCameraChanged;
   final Function(FlashMode mode) onFlashChanged;
-  final Function() onManualInsert;
   DataMatrixCameraOverlay({
     super.key,
     required this.description,
@@ -19,7 +18,6 @@ class DataMatrixCameraOverlay extends StatelessWidget with CameraUIProperty {
     required this.currentCamera,
     required this.flashMode,
     required this.onFlashChanged,
-    required this.onManualInsert,
   });
 
   @override
@@ -27,16 +25,10 @@ class DataMatrixCameraOverlay extends StatelessWidget with CameraUIProperty {
     return Stack(
       children: [
         const ScannerScope.dataMatrix(),
-        CameraOverlayHeader(description: description, flashMode: flashMode, onFlashChanged: onFlashChanged),
-        Positioned(
-          bottom: 32,
-          left: 32,
-          right: 32,
-          child: FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.white, foregroundColor: Colors.black),
-            onPressed: onManualInsert,
-            child: const Text('Inserisci manualmente'),
-          ),
+        CameraOverlayHeader(
+          description: description,
+          flashMode: flashMode,
+          onFlashChanged: onFlashChanged,
         ),
       ],
     );

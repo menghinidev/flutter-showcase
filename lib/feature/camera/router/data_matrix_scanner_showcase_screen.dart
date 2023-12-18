@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
-import 'package:sandbox/feature/showcase/features.dart';
-import 'package:sandbox/feature/showcase/showcase.dart';
 
 import '../application/barcode_extensions.dart';
 import '../ui/overlay/data_matrix_camera_overlay.dart';
@@ -34,8 +32,6 @@ class DataMatrixScannerShowcaseScreen extends ConsumerWidget {
       },
       onManualInsert: onManualInsert,
       overlayBuilder: (controller) => DataMatrixCameraOverlay(
-        onManualInsert: () => ref.read(showcasePageProvider.notifier).state =
-            ShowcaseFeature.shimmer,
         description:
             "Inquadra il QR Code sul tuo bollettino CBILL/PagoPA all'interno dell'area evidenziata",
         flashMode: controller.value.flashMode,

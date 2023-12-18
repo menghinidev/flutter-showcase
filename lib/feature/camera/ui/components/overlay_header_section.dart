@@ -4,13 +4,13 @@ import 'package:sandbox/feature/camera/ui/camera_ui_properties.dart';
 
 class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
   final FlashMode flashMode;
-  final String description;
+  final String? description;
   final Function(FlashMode mode) onFlashChanged;
   const CameraOverlayHeader({
     super.key,
     required this.flashMode,
-    required this.description,
     required this.onFlashChanged,
+    this.description,
   });
 
   @override
@@ -51,21 +51,24 @@ class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 16.0),
-              LayoutBuilder(
-                builder: (context, constraints) => ConstrainedBox(
-                  constraints:
-                      BoxConstraints(maxWidth: constraints.maxWidth * 0.75),
-                  child: Text(
-                    description,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: Colors.white),
+              if (description != null) ...[
+                const SizedBox(height: 16.0),
+                LayoutBuilder(
+                  builder: (context, constraints) => ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: constraints.maxWidth * 0.75,
+                    ),
+                    child: Text(
+                      description!,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(color: Colors.white),
+                    ),
                   ),
-                ),
-              )
+                )
+              ],
             ],
           ),
         )

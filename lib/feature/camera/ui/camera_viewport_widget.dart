@@ -12,15 +12,17 @@ class CameraViewportWidget extends ConsumerStatefulWidget {
   final CameraDescription camera;
   final Widget Function(CameraController controller) overlayBuilder;
   final Function() onPermissionDenied;
-  final Function(CameraController controller, CameraImage image)
-      onImageProcessed;
+  final Function(
+    CameraController controller,
+    CameraImage image,
+  )? onImageProcessed;
 
   const CameraViewportWidget({
     super.key,
     required this.camera,
     required this.overlayBuilder,
-    required this.onImageProcessed,
     required this.onPermissionDenied,
+    this.onImageProcessed,
   });
 
   @override
@@ -85,12 +87,17 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget>
     _setState();
   }
 
-  Future<void> _stopImageStream() => controller!.stopImageStream();
+  Future<void> _stopImageStream() {
+    if (widget.onImageProcessed != null) return controller!.stopImageStream();
+    return Future.value();
+  }
 
   Future<void> _startImageStream() {
     return controller!.startImageStream(
       (image) {
-        if (mounted) widget.onImageProcessed(controller!, image);
+        if (mounted && widget.onImageProcessed != null) {
+          widget.onImageProcessed!(controller!, image);
+        }
       },
     );
   }

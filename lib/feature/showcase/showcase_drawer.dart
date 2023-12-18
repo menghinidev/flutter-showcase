@@ -23,7 +23,8 @@ class ShowcaseDrawer extends ConsumerWidget with CameraUIProperty {
               ShowcaseDrawerMenuItem(
                 title: 'QR Code',
                 icon: cameraIcon,
-                onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.qrCodeScanner,
+                onTap: () => ref.read(currentHomeFeature.notifier).state =
+                    ShowcaseFeature.qrCodeScanner,
               ),
               const SizedBox(height: 16.0),
             ],
@@ -31,7 +32,8 @@ class ShowcaseDrawer extends ConsumerWidget with CameraUIProperty {
               ShowcaseDrawerMenuItem(
                 title: 'Data matrix',
                 icon: cameraIcon,
-                onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.dataMatrixScanner,
+                onTap: () => ref.read(currentHomeFeature.notifier).state =
+                    ShowcaseFeature.dataMatrixScanner,
               ),
               const SizedBox(height: 16.0),
             ],
@@ -39,21 +41,26 @@ class ShowcaseDrawer extends ConsumerWidget with CameraUIProperty {
               ShowcaseDrawerMenuItem(
                 title: 'Shimmer',
                 icon: Icons.refresh,
-                onTap: () => ref.read(showcasePageProvider.notifier).state = ShowcaseFeature.shimmer,
+                onTap: () => ref.read(currentHomeFeature.notifier).state =
+                    ShowcaseFeature.shimmer,
               )
             ],
             if (features.contains(ShowcaseFeature.sliver)) ...[
               ShowcaseDrawerMenuItem(
                 title: 'Sliver',
                 icon: Icons.list,
-                onTap: () => ref.read(showcaseRouterProvider).go(SliverShowcaseRoute.fromHome()),
+                onTap: () => ref
+                    .read(showcaseRouterProvider)
+                    .go(SliverShowcaseRoute.fromHome()),
               ),
             ],
             if (features.contains(ShowcaseFeature.pagination)) ...[
               ShowcaseDrawerMenuItem(
                 title: 'Pagination',
                 icon: Icons.network_cell_outlined,
-                onTap: () => ref.read(showcaseRouterProvider).go(PaginationShowcaseRoute.fromHome()),
+                onTap: () => ref
+                    .read(showcaseRouterProvider)
+                    .go(PaginationShowcaseRoute.fromHome()),
               ),
             ],
           ],

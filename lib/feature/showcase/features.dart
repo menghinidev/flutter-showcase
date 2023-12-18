@@ -6,6 +6,7 @@ enum ShowcaseFeature {
   shimmer,
   sliver,
   pagination,
+  ocr,
 }
 
 final showcaseFeturesProvider = Provider<List<ShowcaseFeature>>((ref) {

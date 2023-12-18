@@ -15,3 +15,11 @@ class DataMatrixScannerRouteNavigationItem extends BottomNavigationBarItem {
           label: 'Data matrix',
         );
 }
+
+class OcrRouteNavigationItem extends BottomNavigationBarItem {
+  OcrRouteNavigationItem()
+      : super(
+          icon: const Icon(Icons.text_fields_outlined),
+          label: 'OCR',
+        );
+}
