@@ -21,6 +21,7 @@ class OcrCameraWidget extends ConsumerWidget {
     var camera = ref.watch(currentCameraProvider);
     if (camera == null) return const LoadingWidget();
     return CameraViewportWidget(
+      resolution: ResolutionPreset.max,
       camera: camera,
       onPermissionDenied: onPermissionDenied,
       overlayBuilder: overlayBuilder,

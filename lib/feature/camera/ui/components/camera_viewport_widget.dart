@@ -3,12 +3,13 @@ import 'dart:developer';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sandbox/utils/loader/loading_widget.dart';
 import 'package:sandbox/utils/permission_handler/permission_manager.dart';
 
 import '../../application/camera_image_format.dart';
-import 'camera_permission_denied_widget.dart';
 
 class CameraViewportWidget extends ConsumerStatefulWidget {
+  final ResolutionPreset resolution;
   final CameraDescription camera;
   final Widget Function(CameraController controller) overlayBuilder;
   final Function() onPermissionDenied;
@@ -19,6 +20,7 @@ class CameraViewportWidget extends ConsumerStatefulWidget {
 
   const CameraViewportWidget({
     super.key,
+    required this.resolution,
     required this.camera,
     required this.overlayBuilder,
     required this.onPermissionDenied,
@@ -67,7 +69,7 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget>
     if (!hasMicrophoneAccess) return widget.onPermissionDenied();
     controller = CameraController(
       widget.camera,
-      ResolutionPreset.medium,
+      widget.resolution,
       imageFormatGroup: platformFormat,
     );
     controller!.addListener(_setState);
@@ -141,7 +143,7 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget>
   @override
   Widget build(BuildContext context) {
     if (!(controller?.value.isInitialized ?? false)) {
-      return const CameraPermissionDeniedWidget();
+      return const LoadingWidget();
     }
     return _FullscreenViewportScaler(
       cameraAspectRatio: controller!.value.aspectRatio,

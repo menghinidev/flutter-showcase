@@ -28,8 +28,7 @@ class OcrShowcaseScreen extends ConsumerWidget with DialogManager {
               onImageCropped: (file) => submitImage(context, ref, file),
             )
           : OcrCameraWidget(
-              onPermissionDenied: () => showWarningDialog(context,
-                  text: 'Serve l\'autorizzazzione a chicco'),
+              onPermissionDenied: () => showWarningDialog(context, text: 'Serve l\'autorizzazzione a chicco'),
               overlayBuilder: (controller) => OcrCameraOverlay(
                 onAcquireImage: () => _takePicture(context, ref, controller),
                 flashMode: controller.value.flashMode,
@@ -63,19 +62,25 @@ class OcrShowcaseScreen extends ConsumerWidget with DialogManager {
       return Future.value();
     }
     final mlKit = ref.read(mlkitControllerProvider);
-    String onCompleted(String text) {
-      showSuccessDialog(
-        context,
-        text: text,
-      ).then((value) => ref.read(_aquiredImageProvider.notifier).state = null);
-      return text;
+    Future<String?> onCompleted(String text) {
+      final iban = _findIban(text);
+      if (iban != null) {
+        showSuccessDialog(
+          context,
+          text: 'IBAN riconosciuto: $iban',
+        ).then((value) => ref.read(_aquiredImageProvider.notifier).state = null);
+      } else {
+        showWarningDialog(
+          context,
+          text: 'IBAN non riconosciuto\nValore: $text',
+        ).then((value) => ref.read(_aquiredImageProvider.notifier).state = null);
+      }
+      return Future.value(iban);
     }
 
     try {
       final image = mlKit.createInputImageFromFile(file);
-      final result = await mlKit.scanOCR(image).then(onCompleted);
-      final iban = _findIban(result);
-      log('IBAN: $iban');
+      await mlKit.scanOCR(image).then(onCompleted);
     } catch (e) {
       log(e.toString());
     }
@@ -84,11 +89,9 @@ class OcrShowcaseScreen extends ConsumerWidget with DialogManager {
   String? _findIban(String result) {
     if (result.isEmpty) return null;
     final regex = RegExp(
-        r'^([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$');
-    final normalized = result.trim();
-    final match = regex.firstMatch(result);
-    if (match == null) return null;
-    final extract = normalized.substring(match.start, match.end);
-    return extract;
+        r'([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$');
+    final normalized = result.trim().replaceAll('\n', '').replaceAll(' ', '');
+    log('Normalized: $normalized');
+    return regex.stringMatch(normalized);
   }
 }

@@ -35,6 +35,7 @@ class _ScannerCameraWidgetState extends ConsumerState<ScannerCameraWidget> {
     var camera = ref.watch(currentCameraProvider);
     if (camera == null) return const LoadingWidget();
     return CameraViewportWidget(
+      resolution: ResolutionPreset.medium,
       camera: camera,
       onPermissionDenied: widget.onPermissionDenied,
       overlayBuilder: widget.overlayBuilder,
