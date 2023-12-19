@@ -28,7 +28,8 @@ class OcrShowcaseScreen extends ConsumerWidget with DialogManager {
               onImageCropped: (file) => submitImage(context, ref, file),
             )
           : OcrCameraWidget(
-              onPermissionDenied: () => showWarningDialog(context, text: 'Serve l\'autorizzazzione a chicco'),
+              onPermissionDenied: () => showWarningDialog(context,
+                  text: 'Serve l\'autorizzazzione a chicco'),
               overlayBuilder: (controller) => OcrCameraOverlay(
                 onAcquireImage: () => _takePicture(context, ref, controller),
                 flashMode: controller.value.flashMode,
@@ -68,12 +69,14 @@ class OcrShowcaseScreen extends ConsumerWidget with DialogManager {
         showSuccessDialog(
           context,
           text: 'IBAN riconosciuto: $iban',
-        ).then((value) => ref.read(_aquiredImageProvider.notifier).state = null);
+        ).then(
+            (value) => ref.read(_aquiredImageProvider.notifier).state = null);
       } else {
         showWarningDialog(
           context,
           text: 'IBAN non riconosciuto\nValore: $text',
-        ).then((value) => ref.read(_aquiredImageProvider.notifier).state = null);
+        ).then(
+            (value) => ref.read(_aquiredImageProvider.notifier).state = null);
       }
       return Future.value(iban);
     }
@@ -88,9 +91,12 @@ class OcrShowcaseScreen extends ConsumerWidget with DialogManager {
 
   String? _findIban(String result) {
     if (result.isEmpty) return null;
-    final regex = RegExp(
-        r'([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$');
-    final normalized = result.trim().replaceAll('\n', '').replaceAll(' ', '');
+    final regex = RegExp('([A-Z]{2}[0-9]{2})[A-Z0-9]{23}');
+    final normalized = result
+        .trim()
+        .replaceAll('\n', '')
+        .replaceAll(' ', '')
+        .replaceAll('-', '');
     log('Normalized: $normalized');
     return regex.stringMatch(normalized);
   }
