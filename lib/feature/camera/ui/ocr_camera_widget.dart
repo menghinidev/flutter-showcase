@@ -1,9 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sandbox/feature/camera/ui/components/camera_viewport_widget.dart';
+import 'package:sandbox/utils/loader/loading_widget.dart';
 
 import '../application/available_camera_provider.dart';
-import 'camera_viewport_widget.dart';
 
 class OcrCameraWidget extends ConsumerWidget {
   const OcrCameraWidget({
@@ -18,7 +19,7 @@ class OcrCameraWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var camera = ref.watch(currentCameraProvider);
-    if (camera == null) return Container();
+    if (camera == null) return const LoadingWidget();
     return CameraViewportWidget(
       camera: camera,
       onPermissionDenied: onPermissionDenied,

@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sandbox/utils/permission_handler/permission_manager.dart';
 
-import '../application/camera_image_format.dart';
+import '../../application/camera_image_format.dart';
 import 'camera_permission_denied_widget.dart';
 
 class CameraViewportWidget extends ConsumerStatefulWidget {
   final CameraDescription camera;
   final Widget Function(CameraController controller) overlayBuilder;
   final Function() onPermissionDenied;
-  final Function(
+  final Future Function(
     CameraController controller,
     CameraImage image,
   )? onImageProcessed;
@@ -26,8 +26,7 @@ class CameraViewportWidget extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CameraViewportWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CameraViewportWidgetState();
 }
 
 class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget>
@@ -74,6 +73,7 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget>
     controller!.addListener(_setState);
     try {
       await controller!.initialize();
+      await controller!.setFlashMode(FlashMode.off);
     } on CameraException catch (e) {
       _logCameraExpection(e);
     }

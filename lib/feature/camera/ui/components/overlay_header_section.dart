@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:sandbox/feature/camera/ui/camera_ui_properties.dart';
+import 'package:sandbox/feature/camera/ui/components/camera_ui_properties.dart';
 
 class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
   final FlashMode flashMode;
@@ -26,11 +26,9 @@ class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
             padding: const EdgeInsets.all(16.0),
             child: IconButton(
               color: Colors.white,
-              onPressed: () => flashMode == FlashMode.torch
-                  ? onFlashChanged(FlashMode.off)
-                  : onFlashChanged(FlashMode.torch),
-              icon: Icon(
-                  flashMode == FlashMode.torch ? flashOffIcon : flashOnIcon),
+              onPressed: () =>
+                  flashMode == FlashMode.torch ? onFlashChanged(FlashMode.off) : onFlashChanged(FlashMode.torch),
+              icon: Icon(flashMode == FlashMode.torch ? flashOffIcon : flashOnIcon),
             ),
           ),
         ),
@@ -61,10 +59,7 @@ class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
                     child: Text(
                       description!,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white),
                     ),
                   ),
                 )

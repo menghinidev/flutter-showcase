@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:sandbox/feature/camera/ui/camera_ui_properties.dart';
+import 'package:sandbox/feature/camera/ui/components/camera_ui_properties.dart';
 
 import '../components/acquire_image_button.dart';
 import '../components/overlay_header_section.dart';

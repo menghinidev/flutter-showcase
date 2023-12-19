@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:sandbox/feature/camera/application/available_camera_provider.dart';
 import 'package:sandbox/feature/camera/application/mlkit_controller.dart';
-import 'package:sandbox/feature/camera/ui/camera_viewport_widget.dart';
+import 'package:sandbox/feature/camera/ui/components/camera_viewport_widget.dart';
+import 'package:sandbox/utils/loader/loading_widget.dart';
 
 class ScannerCameraWidget extends ConsumerStatefulWidget {
   final Function(List<Barcode> value) onScanned;
@@ -23,12 +24,23 @@ class ScannerCameraWidget extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ScannerCameraWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ScannerCameraWidgetState();
 }
 
 class _ScannerCameraWidgetState extends ConsumerState<ScannerCameraWidget> {
   bool hasScanned = false;
+
+  @override
+  Widget build(BuildContext context) {
+    var camera = ref.watch(currentCameraProvider);
+    if (camera == null) return const LoadingWidget();
+    return CameraViewportWidget(
+      camera: camera,
+      onPermissionDenied: widget.onPermissionDenied,
+      overlayBuilder: widget.overlayBuilder,
+      onImageProcessed: (controller, image) => _processImage(camera, controller, image),
+    );
+  }
 
   void _setHasScanned() {
     if (mounted) {
@@ -37,37 +49,24 @@ class _ScannerCameraWidgetState extends ConsumerState<ScannerCameraWidget> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    var camera = ref.watch(currentCameraProvider);
-    if (camera == null) return Container();
-    return CameraViewportWidget(
-      camera: camera,
-      onPermissionDenied: widget.onPermissionDenied,
-      overlayBuilder: widget.overlayBuilder,
-      onImageProcessed: (controller, image) async {
-        if (hasScanned) return Future.value(true);
-        var input =
-            ref.read(mlkitControllerProvider).createInputImageFromCameraImage(
-                  controller,
-                  camera,
-                  image,
-                );
-        if (input == null) return Future.value(false);
-        return await ref.read(mlkitControllerProvider).scanBarcode(input,
-            validFormats: widget.validFormats, onScanned: (code) {
-          if (!hasScanned) {
-            widget.onScanned(code);
-            ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-              SnackBar(
-                content: Text('Scanned: ${code.length}'),
-                showCloseIcon: true,
-              ),
-            );
-            _setHasScanned();
-          }
-          return Future.value();
-        });
+  _processImage(CameraDescription camera, CameraController controller, CameraImage image) async {
+    if (hasScanned) return Future.value(true);
+    final mlkitController = ref.read(mlkitControllerProvider);
+    var input = mlkitController.createInputImageFromCameraImage(
+      controller,
+      camera,
+      image,
+    );
+    if (input == null) return Future.value(false);
+    return await mlkitController.scanBarcode(
+      input,
+      validFormats: widget.validFormats,
+      onScanned: (code) {
+        if (!hasScanned) {
+          widget.onScanned(code);
+          _setHasScanned();
+        }
+        return Future.value();
       },
     );
   }
