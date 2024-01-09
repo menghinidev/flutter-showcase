@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:sandbox/feature/camera/router/qrcode/qr_code_scanner_showcase_screen.dart';
+import 'package:sandbox/feature/camera/router/qrcode/qr_code_scanner_showcase_page.dart';
 
 class QrCodeScannerScreenRoute extends GoRoute {
   static const String pagePath = 'scan/qr';
@@ -7,6 +7,6 @@ class QrCodeScannerScreenRoute extends GoRoute {
   QrCodeScannerScreenRoute()
       : super(
           path: pagePath,
-          builder: (context, state) => const QRCodeScannerShowcaseScreen(),
+          builder: (context, state) => const QRCodeScannerShowcasePage(),
         );
 }

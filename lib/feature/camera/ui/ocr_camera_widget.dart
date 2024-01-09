@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sandbox/feature/camera/ui/components/camera_viewport_widget.dart';
 import 'package:sandbox/utils/loader/loading_widget.dart';
 

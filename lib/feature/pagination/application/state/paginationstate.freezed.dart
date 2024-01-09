@@ -160,7 +160,7 @@ class _$DataImpl<T> implements Data<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DataImpl<T> &&
@@ -302,7 +302,7 @@ class _$LoadingImpl<T> implements Loading<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$LoadingImpl<T>);
   }
@@ -445,7 +445,7 @@ class _$ErrorImpl<T> implements Error<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorImpl<T> &&
@@ -606,7 +606,7 @@ class _$OnGoingLoadingImpl<T> implements OnGoingLoading<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OnGoingLoadingImpl<T> &&
@@ -778,7 +778,7 @@ class _$OnGoingErrorImpl<T> implements OnGoingError<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OnGoingErrorImpl<T> &&

@@ -1,34 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sandbox/feature/sliver/application/sliver_showcase_controller.dart';
+import 'package:sandbox/feature/sliver/application/state/slivershowcasestate.dart';
 
-class ShowcaseSliverPersistentHeader extends StatelessWidget {
+class ShowcaseSliverPersistentHeader extends ConsumerWidget {
   const ShowcaseSliverPersistentHeader({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SliverPersistentHeader(
-      delegate: ShowcaseSliverPersistentHeaderDelegate(),
+      pinned: true,
+      delegate: ShowcaseSliverPersistentHeaderDelegate(ref: ref),
     );
   }
 }
 
 class ShowcaseSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final WidgetRef ref;
+
+  ShowcaseSliverPersistentHeaderDelegate({required this.ref});
+
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        FilterChip.elevated(
+          label: const Text('List'),
+          avatar: const Icon(Icons.list_outlined),
+          onSelected: (val) => ref.read(sliverShowcaseStateProvider.notifier).switchView(SliverShowcaseView.list),
+        ),
+        FilterChip.elevated(
+          label: const Text('Grid'),
+          avatar: const Icon(Icons.grid_4x4_outlined),
+          onSelected: (val) => ref.read(sliverShowcaseStateProvider.notifier).switchView(SliverShowcaseView.grid),
+        ),
+      ],
+    );
   }
 
   @override
-  // TODO: implement maxExtent
-  double get maxExtent => throw UnimplementedError();
+  double get maxExtent => 120.0;
 
   @override
-  // TODO: implement minExtent
-  double get minExtent => throw UnimplementedError();
+  double get minExtent => 50.0;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    // TODO: implement shouldRebuild
-    throw UnimplementedError();
+    return false;
   }
 }

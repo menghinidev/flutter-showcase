@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sandbox/feature/camera/application/available_camera_provider.dart';
 import 'package:sandbox/feature/camera/application/mlkit_controller.dart';
 import 'package:sandbox/feature/camera/ui/components/camera_viewport_widget.dart';
@@ -53,7 +53,7 @@ class _ScannerCameraWidgetState extends ConsumerState<ScannerCameraWidget> {
   _processImage(CameraDescription camera, CameraController controller, CameraImage image) async {
     if (hasScanned) return Future.value(true);
     final mlkitController = ref.read(mlkitControllerProvider);
-    var input = mlkitController.createInputImageFromCameraImage(
+    var input = mlkitController.fromCameraImage(
       controller,
       camera,
       image,

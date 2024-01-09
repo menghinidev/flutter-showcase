@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sandbox/feature/showcase/router/showcase_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sandbox/utils/router/showcase_router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +15,7 @@ class FlutterSandboxApp extends ConsumerWidget {
     var router = ref.watch(showcaseRouterProvider);
     return MaterialApp.router(
       theme: ThemeData.fallback(useMaterial3: true),
+      showSemanticsDebugger: false,
       routerConfig: router,
     );
   }

@@ -1,12 +1,19 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sandbox/utils/loader/loading_widget.dart';
 import 'package:sandbox/utils/permission_handler/permission_manager.dart';
 
-import '../../application/camera_image_format.dart';
+mixin CameraImageFormatProvider {
+  ImageFormatGroup? get platformFormat {
+    if (Platform.isAndroid) return ImageFormatGroup.nv21;
+    if (Platform.isIOS) return ImageFormatGroup.bgra8888;
+    return null;
+  }
+}
 
 class CameraViewportWidget extends ConsumerStatefulWidget {
   final ResolutionPreset resolution;

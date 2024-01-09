@@ -8,16 +8,16 @@ import 'camera_scope_overlay.dart';
 class DataMatrixCameraOverlay extends StatelessWidget with CameraUIProperty {
   final CameraDescription currentCamera;
   final FlashMode flashMode;
-  final String description;
+  final String? description;
   final Function(CameraDescription value) onCameraChanged;
   final Function(FlashMode mode) onFlashChanged;
   DataMatrixCameraOverlay({
     super.key,
-    required this.description,
     required this.onCameraChanged,
     required this.currentCamera,
     required this.flashMode,
     required this.onFlashChanged,
+    this.description,
   });
 
   @override

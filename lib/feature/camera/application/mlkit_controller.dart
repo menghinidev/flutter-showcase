@@ -3,16 +3,49 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final mlkitControllerProvider = Provider<MlKitController>((ref) {
   return MlKitController();
 });
 
-class MlKitController {
-  InputImage? createInputImageFromCameraImage(
+class MlKitController with InputImageFactory {
+  Future<bool> scanBarcode(
+    InputImage image, {
+    required Future<dynamic> Function(List<Barcode> values) onScanned,
+    required List<BarcodeFormat> validFormats,
+  }) async {
+    var scanner = BarcodeScanner(formats: validFormats);
+    var barcodes = await scanner.processImage(image);
+
+    if (barcodes.isNotEmpty) {
+      onScanned(barcodes);
+      return Future.value(true);
+    }
+
+    for (Barcode barcode in barcodes) {
+      log(barcode.type.name);
+    }
+
+    return Future.value(false);
+  }
+
+  Future<String> scanOCR(InputImage image) async {
+    final textRecognizer = TextRecognizer();
+    final recognizedText = await textRecognizer.processImage(image);
+    log('OCR: ${recognizedText.text}');
+    return recognizedText.text;
+  }
+}
+
+mixin InputImageFactory {
+  InputImage fromFile(XFile file) {
+    return InputImage.fromFile(File(file.path));
+  }
+
+  InputImage? fromCameraImage(
     CameraController controller,
     CameraDescription camera,
     CameraImage image,
@@ -28,16 +61,14 @@ class MlKitController {
     if (Platform.isIOS) {
       rotation = InputImageRotationValue.fromRawValue(sensorOrientation);
     } else if (Platform.isAndroid) {
-      var rotationCompensation =
-          orientations[controller.value.deviceOrientation];
+      var rotationCompensation = orientations[controller.value.deviceOrientation];
       if (rotationCompensation == null) return null;
       if (camera.lensDirection == CameraLensDirection.front) {
         // front-facing
         rotationCompensation = (sensorOrientation + rotationCompensation) % 360;
       } else {
         // back-facing
-        rotationCompensation =
-            (sensorOrientation - rotationCompensation + 360) % 360;
+        rotationCompensation = (sensorOrientation - rotationCompensation + 360) % 360;
       }
       rotation = InputImageRotationValue.fromRawValue(rotationCompensation);
     }
@@ -67,36 +98,5 @@ class MlKitController {
         bytesPerRow: plane.bytesPerRow, // used only in iOS
       ),
     );
-  }
-
-  InputImage createInputImageFromFile(XFile file) {
-    return InputImage.fromFile(File(file.path));
-  }
-
-  Future<bool> scanBarcode(
-    InputImage image, {
-    required Future<dynamic> Function(List<Barcode> values) onScanned,
-    required List<BarcodeFormat> validFormats,
-  }) async {
-    var scanner = BarcodeScanner(formats: validFormats);
-    var barcodes = await scanner.processImage(image);
-
-    if (barcodes.isNotEmpty) {
-      onScanned(barcodes);
-      return Future.value(true);
-    }
-
-    for (Barcode barcode in barcodes) {
-      log(barcode.type.name);
-    }
-
-    return Future.value(false);
-  }
-
-  Future<String> scanOCR(InputImage image) async {
-    final textRecognizer = TextRecognizer();
-    final recognizedText = await textRecognizer.processImage(image);
-    log('OCR: ${recognizedText.text}');
-    return recognizedText.text;
   }
 }

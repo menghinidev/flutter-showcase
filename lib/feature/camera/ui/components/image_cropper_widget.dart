@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:camera/camera.dart';
 import 'package:crop_image/crop_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sandbox/feature/camera/ui/components/acquire_image_button.dart';
 import 'package:sandbox/utils/storage/storage_manager.dart';
 

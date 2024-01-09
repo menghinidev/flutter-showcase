@@ -1,39 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sandbox/utils/dialog/dialog_component.dart';
+import 'package:sandbox/utils/router/showcase_router.dart';
 
-mixin DialogManager {
-  Future<T?> showSuccessDialog<T>(
-    BuildContext context, {
-    required String text,
-  }) =>
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Operazione completata'),
-          content: Text(text),
-          actions: [
-            OutlinedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Chiudi'),
-            ),
-          ],
-        ),
-      );
+final dialogManagerProvider = Provider<DialogManager>((ref) {
+  return DialogManager(navigatorKey: ref.watch(navigatorKeyProvider));
+});
 
-  Future<T?> showWarningDialog<T>(
-    BuildContext context, {
+class DialogManager {
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  DialogManager({required this.navigatorKey});
+
+  Future<T?> showSuccessDialog<T>({
     required String text,
-  }) =>
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Attenzione'),
-          content: Text(text),
-          actions: [
-            OutlinedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Chiudi'),
-            ),
-          ],
-        ),
-      );
+  }) {
+    final context = navigatorKey.currentContext;
+    if (context == null) return Future.value();
+    return showDialog(
+      context: context,
+      builder: (context) => ShowcaseBaseDialog(
+        title: 'Operazione completata',
+        content: text,
+      ),
+    );
+  }
+
+  Future<T?> showWarningDialog<T>({
+    required String text,
+  }) {
+    final context = navigatorKey.currentContext;
+    if (context == null) return Future.value();
+    return showDialog(
+      context: context,
+      builder: (context) => ShowcaseBaseDialog(
+        title: 'Attenzione',
+        content: text,
+      ),
+    );
+  }
+}
+
+mixin DialogManagerProvider {
+  DialogManager getDialogManager(WidgetRef ref) => ref.read(dialogManagerProvider);
 }
