@@ -18,8 +18,8 @@ class OcrShowcasePage extends ConsumerWidget with DialogManagerProvider {
       body: state.loadUntil(
         data: (data) => data.map(
           cameraAquisition: (state) => OcrCameraWidget(
-            onPermissionDenied: () => getDialogManager(ref).showWarningDialog(
-              text: 'Serve l\'autorizzazzione a chicco',
+            onPermissionDenied: () => getDialogManager(ref).showWarningDialog<void>(
+              text: "Serve l'autorizzazzione a chicco",
             ),
             overlayBuilder: (controller) => OcrCameraOverlay(
               onAcquireImage: () => getController(ref).takePicture(controller),

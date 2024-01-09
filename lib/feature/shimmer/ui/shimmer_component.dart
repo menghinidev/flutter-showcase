@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sandbox/feature/shimmer/ui/shimmer_placeholder.dart';
 import 'package:shimmer/shimmer.dart';
-
-import 'shimmer_placeholder.dart';
 
 class ShowcaseShimmerWidget extends StatelessWidget {
   const ShowcaseShimmerWidget({super.key});
@@ -17,15 +16,15 @@ class ShowcaseShimmerWidget extends StatelessWidget {
         children: [
           BannerPlaceholder(),
           TitlePlaceholder(width: double.infinity),
-          SizedBox(height: 16.0),
+          SizedBox(height: 16),
           ContentPlaceholder(lineType: ContentLineType.threeLines),
-          SizedBox(height: 16.0),
-          TitlePlaceholder(width: 200.0),
-          SizedBox(height: 16.0),
+          SizedBox(height: 16),
+          TitlePlaceholder(width: 200),
+          SizedBox(height: 16),
           ContentPlaceholder(lineType: ContentLineType.twoLines),
-          SizedBox(height: 16.0),
-          TitlePlaceholder(width: 200.0),
-          SizedBox(height: 16.0),
+          SizedBox(height: 16),
+          TitlePlaceholder(width: 200),
+          SizedBox(height: 16),
           ContentPlaceholder(lineType: ContentLineType.twoLines),
         ],
       ),

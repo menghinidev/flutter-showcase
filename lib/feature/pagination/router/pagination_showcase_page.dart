@@ -20,7 +20,7 @@ class PaginationShowcasePage extends HookConsumerWidget {
         provider: autoDisposePaginationItemProvider,
         separator: 10,
         builder: (context, value) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: PaginationItemComponent(item: value),
         ),
       ),

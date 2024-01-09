@@ -6,9 +6,8 @@ import 'package:sandbox/feature/camera/router/qrcode/qr_code_route.dart';
 import 'package:sandbox/feature/pagination/router/pagination_showcase_route.dart';
 import 'package:sandbox/feature/shimmer/router/shimmer_showcase_route.dart';
 import 'package:sandbox/feature/sliver/router/sliver_showcase_route.dart';
+import 'package:sandbox/showcase/ui/showcase_list_item.dart';
 import 'package:sandbox/utils/router/showcase_router.dart';
-
-import 'showcase_list_item.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});

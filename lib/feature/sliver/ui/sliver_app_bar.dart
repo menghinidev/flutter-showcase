@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sandbox/utils/logger/logger_manager.dart';
 
 class ShowcaseSliverAppBar extends ConsumerWidget {
   const ShowcaseSliverAppBar({super.key});
@@ -13,7 +14,7 @@ class ShowcaseSliverAppBar extends ConsumerWidget {
       ),
       actions: [
         IconButton.filledTonal(
-          onPressed: () => print('ao'),
+          onPressed: () => ref.logMessage('AO'),
           icon: const Icon(Icons.sort),
         ),
       ],

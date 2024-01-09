@@ -1,64 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sandbox/feature/pagination/application/pagination_notifier.dart';
+import 'package:sandbox/feature/pagination/application/state/paginationstate.dart';
+import 'package:sandbox/feature/pagination/ui/components/error_widget.dart';
+import 'package:sandbox/feature/pagination/ui/components/no_items_found_placeholder.dart';
 import 'package:sandbox/feature/pagination/ui/components/no_more_items_placeholder.dart';
 import 'package:sandbox/utils/builder/empty_data_builder.dart';
 import 'package:sandbox/utils/loader/loading_widget.dart';
 
-import '../application/pagination_notifier.dart';
-import '../application/state/paginationstate.dart';
-import 'components/error_widget.dart';
-import 'components/no_items_found_placeholder.dart';
-
 class PaginatedListView<T> extends ConsumerWidget {
   const PaginatedListView({
-    Key? key,
     required this.scrollController,
     required this.provider,
     required this.builder,
     required this.separator,
+    super.key,
     this.restorationId,
   })  : autodisposeProvider = null,
         autodispose = false,
-        sliver = false,
-        super(key: key);
+        sliver = false;
 
   const PaginatedListView.autoDispose({
-    Key? key,
     required this.scrollController,
     required AutoDisposeStateNotifierProvider<PaginationNotifier<T>, PaginationState<T>> provider,
     required this.builder,
     required this.separator,
+    super.key,
     this.restorationId,
   })  : provider = null,
         autodisposeProvider = provider,
         autodispose = true,
-        sliver = false,
-        super(key: key);
+        sliver = false;
 
   const PaginatedListView.sliver({
-    Key? key,
     required this.scrollController,
     required this.provider,
     required this.builder,
     required this.separator,
+    super.key,
     this.restorationId,
   })  : autodisposeProvider = null,
         autodispose = false,
-        sliver = true,
-        super(key: key);
+        sliver = true;
 
   const PaginatedListView.sliverAutoDispose({
-    Key? key,
     required this.scrollController,
     required AutoDisposeStateNotifierProvider<PaginationNotifier<T>, PaginationState<T>> provider,
     required this.builder,
     required this.separator,
+    super.key,
     this.restorationId,
   })  : provider = null,
         autodisposeProvider = provider,
         autodispose = true,
-        sliver = true,
-        super(key: key);
+        sliver = true;
 
   final ScrollController scrollController;
   final StateNotifierProvider<PaginationNotifier<T>, PaginationState<T>>? provider;
@@ -127,10 +122,10 @@ class PaginatedListView<T> extends ConsumerWidget {
     );
   }
 
-  _fetchNextBatchListener(BuildContext context, WidgetRef ref) {
-    double maxScroll = scrollController.position.maxScrollExtent;
-    double currentScroll = scrollController.position.pixels;
-    double delta = MediaQuery.of(context).size.width * 0.20;
+  void _fetchNextBatchListener(BuildContext context, WidgetRef ref) {
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.position.pixels;
+    final delta = MediaQuery.of(context).size.width * 0.20;
     if (maxScroll - currentScroll <= delta) {
       ref.read((autodispose ? autodisposeProvider! : provider!).notifier).fetchNextBatch();
     }
@@ -138,18 +133,17 @@ class PaginatedListView<T> extends ConsumerWidget {
 }
 
 class _SliverItemsList<T> extends StatelessWidget {
-  final PaginationState<T> state;
-  final Function() onRefresh;
-  final double separator;
-  final Widget Function(BuildContext context, T value) builder;
-
   const _SliverItemsList({
-    Key? key,
     required this.state,
     required this.builder,
     required this.onRefresh,
     required this.separator,
-  }) : super(key: key);
+    super.key,
+  });
+  final PaginationState<T> state;
+  final Future<void> Function() onRefresh;
+  final double separator;
+  final Widget Function(BuildContext context, T value) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -178,11 +172,11 @@ class _SliverItemsList<T> extends StatelessWidget {
 
 class _SliverItemsListBuilder<T> extends StatelessWidget {
   const _SliverItemsListBuilder({
-    Key? key,
     required this.items,
     required this.builder,
     required this.separator,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<T> items;
   final Widget Function(BuildContext context, T value) builder;
@@ -199,22 +193,21 @@ class _SliverItemsListBuilder<T> extends StatelessWidget {
 }
 
 class _ItemsList<T> extends StatelessWidget {
-  final PaginationState<T> state;
-  final Function() onRefresh;
-  final double separator;
-  final ScrollController controller;
-  final String? restorationId;
-  final Widget Function(BuildContext context, T value) builder;
-
   const _ItemsList({
-    Key? key,
     required this.state,
     required this.builder,
     required this.onRefresh,
     required this.separator,
     required this.controller,
+    super.key,
     this.restorationId,
-  }) : super(key: key);
+  });
+  final PaginationState<T> state;
+  final Future<void> Function() onRefresh;
+  final double separator;
+  final ScrollController controller;
+  final String? restorationId;
+  final Widget Function(BuildContext context, T value) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -244,13 +237,13 @@ class _ItemsList<T> extends StatelessWidget {
 
 class _ItemsListBuilder<T> extends StatelessWidget {
   const _ItemsListBuilder({
-    Key? key,
     required this.items,
     required this.builder,
     required this.separator,
     required this.controller,
+    super.key,
     this.restorationId,
-  }) : super(key: key);
+  });
 
   final List<T> items;
   final Widget Function(BuildContext context, T value) builder;
@@ -271,8 +264,8 @@ class _ItemsListBuilder<T> extends StatelessWidget {
 }
 
 class _OnGoingBottomWidget<T> extends StatelessWidget {
+  const _OnGoingBottomWidget({required this.state, super.key});
   final PaginationState<T> state;
-  const _OnGoingBottomWidget({Key? key, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -288,7 +281,7 @@ class _OnGoingBottomWidget<T> extends StatelessWidget {
                 Icon(Icons.info),
                 SizedBox(height: 20),
                 Text(
-                  "Something Went Wrong!",
+                  'Something Went Wrong!',
                   style: TextStyle(color: Colors.black),
                 ),
               ],

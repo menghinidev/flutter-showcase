@@ -11,29 +11,30 @@ class SliverShowcaseController extends StateNotifier<AsyncValue<SliverShowcaseSt
     _init();
   }
 
-  _init() {
+  void _init() {
     final initialItems = List.generate(100, (index) => '$index');
     const initialView = SliverShowcaseView.list;
     final newState = SliverShowcaseState(items: initialItems, view: initialView);
     state = AsyncData(newState);
   }
 
-  reorder(int oldIndex, int newIndex) {
+  void reorder(int oldIndex, int newIndex) {
+    var normalizedNewIndex = newIndex;
     final actualState = state.whenOrNull(data: (data) => data);
     if (actualState == null) return;
     final currentValues = actualState.items;
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
+    if (oldIndex < normalizedNewIndex) {
+      normalizedNewIndex -= 1;
     }
     final value = currentValues[oldIndex];
     final resultList = [...currentValues]
       ..removeAt(oldIndex)
-      ..insert(newIndex, value);
+      ..insert(normalizedNewIndex, value);
     final newState = actualState.copyWith(items: resultList);
     state = AsyncData(newState);
   }
 
-  switchView(SliverShowcaseView view) {
+  void switchView(SliverShowcaseView view) {
     final actualState = state.whenOrNull(data: (data) => data);
     if (actualState == null) return;
     final newState = actualState.copyWith(view: view);

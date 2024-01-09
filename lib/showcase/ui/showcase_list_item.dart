@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ShowcaseListItem extends StatelessWidget {
   const ShowcaseListItem({
-    super.key,
     required this.title,
+    super.key,
     this.onTap,
   });
 

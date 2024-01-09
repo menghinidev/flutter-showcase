@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sandbox/feature/pagination/application/state/paginationstate.dart';
 
-class NoMoreItems extends ConsumerWidget {
-  final PaginationState state;
-  const NoMoreItems({Key? key, required this.state}) : super(key: key);
+class NoMoreItems<T> extends ConsumerWidget {
+  const NoMoreItems({required this.state, super.key});
+  final PaginationState<T> state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +15,7 @@ class NoMoreItems extends ConsumerWidget {
         return const Padding(
           padding: EdgeInsets.only(bottom: 20),
           child: Text(
-            "No More Items Found!",
+            'No More Items Found!',
             textAlign: TextAlign.center,
           ),
         );

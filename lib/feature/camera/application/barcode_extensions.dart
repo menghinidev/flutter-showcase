@@ -1,8 +1,7 @@
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 
 extension QRCodeBarcodeFilter on List<Barcode> {
-  List<Barcode> get textCodes =>
-      where((element) => element.type == BarcodeType.text).toList();
+  List<Barcode> get textCodes => where((element) => element.type == BarcodeType.text).toList();
 
   Barcode? onQRCode() => textCodes.isEmpty ? null : textCodes.first;
   Barcode? onDataMatrix() => textCodes.isEmpty ? null : textCodes.first;
@@ -13,12 +12,12 @@ extension BarcodeParser on Barcode {
     final splitBarcode = <String>[];
     final dataMatrix = rawValue ?? '';
     if (dataMatrix.isNotEmpty) {
-      int nCp = 2;
-      int nCodBol = 1;
+      const nCp = 2;
+      const nCodBol = 1;
       final postalCodeEnd = __getPostalCodeEnd(dataMatrix, nCp: nCp);
       if (postalCodeEnd == null) return null;
       final postalCode = _getPostalCode(dataMatrix, nCp: nCp);
-      postalCode != null ? splitBarcode.add(postalCode) : null;
+      if (postalCode != null) splitBarcode.add(postalCode);
       final accreditoEnd = __getCCAccreditoEnd(
         dataMatrix,
         nCp: nCp,
@@ -30,7 +29,7 @@ extension BarcodeParser on Barcode {
         postalCodeEnd: postalCodeEnd,
         nCp: nCp,
       );
-      cc != null ? splitBarcode.add(cc) : null;
+      if (cc != null) splitBarcode.add(cc);
       final amountEnd = __getAmountEnd(
         dataMatrix,
         nCp: nCp,
@@ -42,14 +41,14 @@ extension BarcodeParser on Barcode {
         ccAccreditoEnd: accreditoEnd,
         nCp: nCp,
       );
-      amount != null ? splitBarcode.add(amount) : null;
+      if (amount != null) splitBarcode.add(amount);
       final bollettinoCode = _getBollettino(
         dataMatrix,
         nCodBol: nCodBol,
         nCp: nCp,
         amountEnd: amountEnd,
       );
-      bollettinoCode != null ? splitBarcode.add(bollettinoCode) : null;
+      if (bollettinoCode != null) splitBarcode.add(bollettinoCode);
     }
     return splitBarcode;
   }
@@ -96,7 +95,7 @@ extension BarcodeParser on Barcode {
       postalCodeEnd: postalCodeEnd,
     );
     if (ccAccreditoEnd == null) return null;
-    if (value.length < (ccAccreditoEnd)) return null;
+    if (value.length < ccAccreditoEnd) return null;
     return value.substring(
       postalCodeEnd + nCp,
       ccAccreditoEnd,
@@ -134,14 +133,14 @@ extension BarcodeParser on Barcode {
     );
     if (amountString.isEmpty) return null;
     final decimalAmountString = amountString.substring(
-      (amountString.length - nDecimal),
+      amountString.length - nDecimal,
       amountString.length,
     );
     final mainAmount = amountString.substring(
       0,
       amountString.length - nDecimal,
     );
-    return "$mainAmount.$decimalAmountString";
+    return '$mainAmount.$decimalAmountString';
   }
 
   int? __getBollettinoEnd(

@@ -17,15 +17,15 @@ class MlKitController with InputImageFactory {
     required Future<dynamic> Function(List<Barcode> values) onScanned,
     required List<BarcodeFormat> validFormats,
   }) async {
-    var scanner = BarcodeScanner(formats: validFormats);
-    var barcodes = await scanner.processImage(image);
+    final scanner = BarcodeScanner(formats: validFormats);
+    final barcodes = await scanner.processImage(image);
 
     if (barcodes.isNotEmpty) {
-      onScanned(barcodes);
+      await onScanned(barcodes);
       return Future.value(true);
     }
 
-    for (Barcode barcode in barcodes) {
+    for (final barcode in barcodes) {
       log(barcode.type.name);
     }
 
@@ -74,8 +74,8 @@ mixin InputImageFactory {
     }
     if (rotation == null) return null;
 
-    // get image format
-    final format = InputImageFormatValue.fromRawValue(image.format.raw);
+    final rawValue = image.format.raw;
+    final format = InputImageFormatValue.fromRawValue(rawValue as int);
     // validate format depending on platform
     // only supported formats:
     // * nv21 for Android

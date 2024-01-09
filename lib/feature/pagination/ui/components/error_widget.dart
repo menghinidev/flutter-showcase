@@ -11,7 +11,7 @@ class PaginationListErrorWidget extends StatelessWidget {
           Icon(Icons.info),
           SizedBox(height: 20),
           Text(
-            "Something Went Wrong!",
+            'Something Went Wrong!',
             style: TextStyle(color: Colors.black),
           ),
         ],

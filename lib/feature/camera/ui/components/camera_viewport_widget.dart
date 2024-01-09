@@ -16,23 +16,22 @@ mixin CameraImageFormatProvider {
 }
 
 class CameraViewportWidget extends ConsumerStatefulWidget {
-  final ResolutionPreset resolution;
-  final CameraDescription camera;
-  final Widget Function(CameraController controller) overlayBuilder;
-  final Function() onPermissionDenied;
-  final Future Function(
-    CameraController controller,
-    CameraImage image,
-  )? onImageProcessed;
-
   const CameraViewportWidget({
-    super.key,
     required this.resolution,
     required this.camera,
     required this.overlayBuilder,
     required this.onPermissionDenied,
+    super.key,
     this.onImageProcessed,
   });
+  final ResolutionPreset resolution;
+  final CameraDescription camera;
+  final Widget Function(CameraController controller) overlayBuilder;
+  final void Function() onPermissionDenied;
+  final Future<void> Function(
+    CameraController controller,
+    CameraImage image,
+  )? onImageProcessed;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CameraViewportWidgetState();
@@ -69,10 +68,10 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget>
   }
 
   Future<void> _initializeCameraController() async {
-    var permissionManager = ref.read(permissionManagerProvider);
-    var hasCameraAccess = await permissionManager.askForCameraAccess();
+    final permissionManager = ref.read(permissionManagerProvider);
+    final hasCameraAccess = await permissionManager.askForCameraAccess();
     if (!hasCameraAccess) return widget.onPermissionDenied();
-    var hasMicrophoneAccess = await permissionManager.askForMicrophoneAccess();
+    final hasMicrophoneAccess = await permissionManager.askForMicrophoneAccess();
     if (!hasMicrophoneAccess) return widget.onPermissionDenied();
     controller = CameraController(
       widget.camera,
@@ -161,15 +160,14 @@ class _CameraViewportWidgetState extends ConsumerState<CameraViewportWidget>
 }
 
 class _FullscreenViewportScaler extends StatelessWidget {
-  final Widget child;
-  final double cameraAspectRatio;
-  final Widget overlayWidget;
-
   const _FullscreenViewportScaler({
     required this.child,
     required this.cameraAspectRatio,
     required this.overlayWidget,
   });
+  final Widget child;
+  final double cameraAspectRatio;
+  final Widget overlayWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -192,8 +190,8 @@ class _FullscreenViewportScaler extends StatelessWidget {
 }
 
 class _FullscreenViewportSizeClipper extends CustomClipper<Rect> {
-  final Size mediaSize;
   const _FullscreenViewportSizeClipper(this.mediaSize);
+  final Size mediaSize;
   @override
   Rect getClip(Size size) {
     return Rect.fromLTWH(0, 0, mediaSize.width, mediaSize.height);

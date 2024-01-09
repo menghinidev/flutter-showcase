@@ -16,14 +16,12 @@ class ShowcaseSliverPersistentHeader extends ConsumerWidget {
 }
 
 class ShowcaseSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final WidgetRef ref;
-
   ShowcaseSliverPersistentHeaderDelegate({required this.ref});
+  final WidgetRef ref;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         FilterChip.elevated(
           label: const Text('List'),
@@ -40,10 +38,10 @@ class ShowcaseSliverPersistentHeaderDelegate extends SliverPersistentHeaderDeleg
   }
 
   @override
-  double get maxExtent => 120.0;
+  double get maxExtent => 120;
 
   @override
-  double get minExtent => 50.0;
+  double get minExtent => 50;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

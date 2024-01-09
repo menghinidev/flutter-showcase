@@ -1,9 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:sandbox/feature/camera/ui/components/acquire_image_button.dart';
 import 'package:sandbox/feature/camera/ui/components/camera_ui_properties.dart';
-
-import '../components/acquire_image_button.dart';
-import '../components/overlay_header_section.dart';
+import 'package:sandbox/feature/camera/ui/components/overlay_header_section.dart';
 
 class OcrCameraOverlay extends StatelessWidget with CameraUIProperty {
   OcrCameraOverlay({

@@ -23,6 +23,7 @@ dependencies:
   crop_image: ^1.0.11
   path_provider: ^2.1.1
   flutter_hooks: ^0.20.3
+  logger: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +35,7 @@ dev_dependencies:
   riverpod_lint: ^2.3.7
   freezed: ^2.4.5
   json_serializable: ^6.7.1
+  very_good_analysis: ^5.1.0
 
 flutter:
   uses-material-design: true

@@ -14,13 +14,13 @@ final cropControllerProvider = Provider.autoDispose<CropController>((ref) {
 });
 
 class ImageCropperWidget extends ConsumerWidget {
-  final File file;
-  final Future Function(XFile? value) onImageCropped;
   const ImageCropperWidget({
-    super.key,
     required this.file,
     required this.onImageCropped,
+    super.key,
   });
+  final File file;
+  final Future<void> Function(XFile? value) onImageCropped;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

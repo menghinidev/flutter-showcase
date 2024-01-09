@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NoItemsFoundPlaceholder extends StatelessWidget {
-  final Function() onRefresh;
-
-  const NoItemsFoundPlaceholder({super.key, required this.onRefresh});
+  const NoItemsFoundPlaceholder({required this.onRefresh, super.key});
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,7 @@ class NoItemsFoundPlaceholder extends StatelessWidget {
           onPressed: onRefresh,
           icon: const Icon(Icons.replay),
         ),
-        const Chip(label: Text("No items Found!")),
+        const Chip(label: Text('No items Found!')),
       ],
     );
   }

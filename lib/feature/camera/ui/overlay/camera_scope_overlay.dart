@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ScannerScope extends StatelessWidget {
-  final Color color;
-  final Alignment alignment;
-  final double aspectRatio;
-
   const ScannerScope.dataMatrix({super.key})
       : alignment = const Alignment(0, -0.25),
         aspectRatio = 16 / 9,
         color = const Color.fromRGBO(173, 216, 230, 0.5);
 
   const ScannerScope.qrCode({super.key})
-      : alignment = const Alignment(0, 0),
+      : alignment = Alignment.center,
         aspectRatio = 1,
         color = const Color.fromRGBO(173, 216, 230, 0.5);
+  final Color color;
+  final Alignment alignment;
+  final double aspectRatio;
 
   @override
   Widget build(BuildContext context) {

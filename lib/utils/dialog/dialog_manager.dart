@@ -8,9 +8,8 @@ final dialogManagerProvider = Provider<DialogManager>((ref) {
 });
 
 class DialogManager {
-  final GlobalKey<NavigatorState> navigatorKey;
-
   DialogManager({required this.navigatorKey});
+  final GlobalKey<NavigatorState> navigatorKey;
 
   Future<T?> showSuccessDialog<T>({
     required String text,

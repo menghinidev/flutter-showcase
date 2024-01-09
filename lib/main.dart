@@ -12,10 +12,9 @@ class FlutterSandboxApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var router = ref.watch(showcaseRouterProvider);
+    final router = ref.watch(showcaseRouterProvider);
     return MaterialApp.router(
       theme: ThemeData.fallback(useMaterial3: true),
-      showSemanticsDebugger: false,
       routerConfig: router,
     );
   }

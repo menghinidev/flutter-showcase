@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandbox/feature/sliver/ui/reorderable_list/sliver_reorderable_list.dart';
-
-import '../ui/sliver_app_bar.dart';
+import 'package:sandbox/feature/sliver/ui/sliver_app_bar.dart';
 
 class SliverShowcasePage extends StatelessWidget {
   const SliverShowcasePage({super.key});

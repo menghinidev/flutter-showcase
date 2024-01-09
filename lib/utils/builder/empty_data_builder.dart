@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-
-import 'empty_widget.dart';
+import 'package:sandbox/utils/builder/empty_widget.dart';
 
 class EmptyDataWidget extends StatelessWidget {
-  final bool emptyCondition;
-  final Widget Function(BuildContext context) childBuilder;
-  final Widget Function(BuildContext context)? emptyPlaceholderBuilder;
-  final bool applySliver;
-
   const EmptyDataWidget({
     required this.emptyCondition,
     required this.childBuilder,
     this.emptyPlaceholderBuilder,
     this.applySliver = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
+  final bool emptyCondition;
+  final Widget Function(BuildContext context) childBuilder;
+  final Widget Function(BuildContext context)? emptyPlaceholderBuilder;
+  final bool applySliver;
 
   @override
   Widget build(BuildContext context) {

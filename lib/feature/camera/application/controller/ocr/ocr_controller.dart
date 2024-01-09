@@ -50,9 +50,9 @@ class OcrScannerScreenController extends StateNotifier<AsyncValue<OcrScannerStat
       final response = await mlkitController.scanOCR(image);
       final iban = _findIban(response);
       if (iban != null) {
-        await dialogManager.showSuccessDialog(text: 'IBAN riconosciuto: $iban');
+        await dialogManager.showSuccessDialog<void>(text: 'IBAN riconosciuto: $iban');
       } else {
-        await dialogManager.showSuccessDialog(text: 'IBAN non riconosciuto\nValore: $response');
+        await dialogManager.showSuccessDialog<void>(text: 'IBAN non riconosciuto\nValore: $response');
       }
     } catch (e) {
       log(e.toString());

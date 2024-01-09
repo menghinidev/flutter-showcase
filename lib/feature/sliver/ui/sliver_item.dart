@@ -9,8 +9,8 @@ class ShowcaseSliverListItem extends StatelessWidget {
       child: ListTile(
         title: const Text('Elemento'),
         shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Colors.black),
-          borderRadius: BorderRadius.circular(16.0),
+          side: const BorderSide(),
+          borderRadius: BorderRadius.circular(16),
         ),
       ),
     );

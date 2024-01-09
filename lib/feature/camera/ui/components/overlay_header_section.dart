@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:sandbox/feature/camera/ui/components/camera_ui_properties.dart';
 
 class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
-  final FlashMode flashMode;
-  final String? description;
-  final Function(FlashMode mode) onFlashChanged;
   const CameraOverlayHeader({
-    super.key,
     required this.flashMode,
     required this.onFlashChanged,
+    super.key,
     this.description,
   });
+  final FlashMode flashMode;
+  final String? description;
+  final void Function(FlashMode mode) onFlashChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
           top: 0,
           width: 56,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: IconButton(
               color: Colors.white,
               onPressed: () =>
@@ -37,11 +37,10 @@ class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
           top: 0,
           right: 0,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 width: 100,
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16),
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.qr_code,
@@ -50,7 +49,7 @@ class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
                 ),
               ),
               if (description != null) ...[
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 16),
                 LayoutBuilder(
                   builder: (context, constraints) => ConstrainedBox(
                     constraints: BoxConstraints(
@@ -62,11 +61,11 @@ class CameraOverlayHeader extends StatelessWidget with CameraUIProperty {
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white),
                     ),
                   ),
-                )
+                ),
               ],
             ],
           ),
-        )
+        ),
       ],
     );
   }

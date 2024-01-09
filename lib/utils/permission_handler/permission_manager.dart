@@ -7,13 +7,13 @@ final permissionManagerProvider = Provider<PermissionManager>((ref) {
 
 class PermissionManager {
   Future<bool> askForCameraAccess() async {
-    var status = await Permission.camera.request();
+    final status = await Permission.camera.request();
     if (status.isGranted || status.isLimited) return true;
     return false;
   }
 
   Future<bool> askForMicrophoneAccess() async {
-    var status = await Permission.microphone.request();
+    final status = await Permission.microphone.request();
     if (status.isGranted || status.isLimited) return true;
     return false;
   }
