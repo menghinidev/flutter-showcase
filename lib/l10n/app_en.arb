@@ -1,0 +1,53 @@
+{
+    "@@author": "Lorenzo Menghini",
+    "@@last_modified": "21/01/2024",
+    "@@locale": "en",
+    "title": "Lorenzo Menghini",
+    "@title": {
+        "description": "My name"
+    },
+    "home_page_header": "Hi this is my curriculum vitae and my portfolio of projects.",
+    "@home_page_header": {
+        "description": "Main page header"
+    },
+    "home_page_header_action_send_email": "Email me",
+    "@home_page_header_action_send_email": {
+        "description": "Action button to send an email"
+    },
+    "home_page_header_action_call": "Call me",
+    "@home_page_header_action_call": {
+        "description": "Azione button to call me"
+    },
+    "feature_dappertutto_title": "Dappertutto",
+    "@feature_dappertutto_title": {
+        "description": "Titolo della feature dappertutto"
+    },
+    "feature_dappertutto_description": "Dappertutto è un'applicazione che permette di trovare i luoghi più vicini a te, come ad esempio ristoranti, bar, musei, ecc. e di poterli visualizzare sulla mappa.",
+    "@feature_dappertutto_description": {
+        "description": "Descrizione della feature dappertutto"
+    },
+    "feature_code_snippets_title": "Code Snippets",
+    "@feature_code_snippets_title": {
+        "description": "Titolo della feature code snippets"
+    },
+    "feature_code_snippets_description": "Una raccolta di alcune funzioni che ho scritto per dart e flutter.",
+    "@feature_code_snippets_description": {
+        "description": "Descrizione della feature code snippets"
+    },
+    "feature_badge_riverpod": "Riverpod",
+    "@feature_badge_riverpod": {
+        "description": "Badge per riverpod"
+    },
+    "feature_badge_flutter": "Flutter",
+    "@feature_badge_flutter": {
+        "description": "Badge per flutter"
+    },
+    "feature_badge_dart": "Dart",
+    "@feature_badge_dart": {
+        "description": "Badge per dart"
+    },
+    "feature_badge_firebase": "Firebase",
+    "@feature_badge_firebase": {
+        "description": "Badge per firebase"
+    }
+}
