@@ -1,6 +1,8 @@
 name: Analyze code
 
-on: [push]
+on: push
+  branches:
+    - develop
 
 jobs:
   analysis:
