@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  analysis:
-    name: Static analysis
+  build:
+    name: Deploy to GH Pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,4 +20,5 @@ jobs:
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
           webRenderer: canvaskit
+          baseHref: /flutter-showcase/
         
