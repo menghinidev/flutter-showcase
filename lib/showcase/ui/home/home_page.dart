@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sandbox/showcase/model/showcase_work/showcasework.dart';
-import 'package:sandbox/showcase/ui/animation/animation_utility.dart';
-import 'package:sandbox/showcase/ui/home/components/feature_card.dart';
 import 'package:sandbox/showcase/ui/home/sections/app_bar.dart';
+import 'package:sandbox/showcase/ui/home/sections/header_section.dart';
+import 'package:sandbox/showcase/ui/home/sections/showcase_work_listview.dart';
+import 'package:sandbox/showcase/ui/utils/scroll_utility.dart';
 import 'package:sandbox/showcase/ui/utils/ui_utility.dart';
 import 'package:sandbox/utils/localization/app_localization_service.dart';
 
@@ -15,110 +15,53 @@ final showcaseWorkProvider = Provider<List<ShowcaseWork>>((ref) {
   ];
 });
 
-class HomePage extends HookConsumerWidget with UiUtility {
+class HomePage extends HookConsumerWidget with UiUtility, UiShape {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
     final items = ref.watch(showcaseWorkProvider);
-    return CustomScrollView(
-      controller: scrollController,
-      slivers: [
-        const HomePageAppBar(),
-        smallSliverDivider,
-        const _HomePageHeader(),
-        smallSliverDivider,
-        _ShowcaseWorkListView(items: items),
-      ],
-    );
-  }
-}
-
-class _HomePageHeader extends ConsumerStatefulWidget {
-  const _HomePageHeader({super.key});
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => __HomePageHeaderState();
-}
-
-class __HomePageHeaderState extends ConsumerState<_HomePageHeader> with UiDimension, UiUtility, AnimtionUtility {
-  double opacity = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        opacity = 0.5;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final localization = ref.watch(appLocalizationsProvider);
-    return SliverAnimatedOpacity(
-      opacity: opacity,
-      duration: standardDuration,
-      curve: Curves.easeInOut,
-      sliver: SliverToBoxAdapter(
-        child: Container(
-          padding: mediumPadding,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+    return Scaffold(
+      appBar: const RoundedHomePageAppBar(),
+      extendBodyBehindAppBar: true,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.network(
+              'https://png.pngtree.com/thumb_back/fh260/background/20211029/pngtree-gradient-geometric-vertical-background-for-instagram-stories-device-landing-page-web-image_914127.png',
+              fit: BoxFit.cover,
+            ),
           ),
-          child: Text(
-            localization.home_page_header,
-            style: context.textTheme.headlineSmall,
+          const Positioned(
+            top: kToolbarHeight + UiDimension.mediumSize,
+            left: UiDimension.mediumSize,
+            right: UiDimension.mediumSize,
+            bottom: 0,
+            child: CustomScrollView(
+              slivers: [HomePageHeader()],
+            ),
           ),
-        ),
+        ],
       ),
-    );
-  }
-}
-
-class _ShowcaseWorkListView extends StatefulHookConsumerWidget {
-  const _ShowcaseWorkListView({required this.items, super.key});
-
-  final List<ShowcaseWork> items;
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ShowcaseWorkListViewState();
-}
-
-class _ShowcaseWorkListViewState extends ConsumerState<_ShowcaseWorkListView> with UiDimension {
-  List<ShowcaseWork> items = <ShowcaseWork>[];
-  final GlobalKey<SliverAnimatedListState> _listKey = GlobalKey<SliverAnimatedListState>();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _insertItems();
-    });
-  }
-
-  Future<void> _insertItems() async {
-    for (final item in widget.items) {
-      await Future<void>.delayed(const Duration(milliseconds: 100), () {
-        items.add(item);
-        _listKey.currentState?.insertItem(items.indexOf(item));
-      });
-    }
-    return Future.value();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverAnimatedList(
-      key: _listKey,
-      initialItemCount: items.length,
-      itemBuilder: (context, index, animation) => Padding(
-        padding: mediumHorizontalPadding,
-        child: SizeTransition(
-          sizeFactor: animation,
-          child: ShowcaseWorkCard(work: items[index]),
+      bottomSheet: CustomScrollConfiguration(
+        child: DraggableScrollableSheet(
+          minChildSize: 0.1,
+          expand: false,
+          initialChildSize: 0.7,
+          maxChildSize: 0.7,
+          snap: true,
+          snapSizes: const [0.1],
+          builder: (context, scrollController) => Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: topRounded.borderRadius,
+            ),
+            alignment: Alignment.topCenter,
+            child: ShowcaseWorkListView(
+              items: items,
+              scrollController: scrollController,
+            ),
+          ),
         ),
       ),
     );

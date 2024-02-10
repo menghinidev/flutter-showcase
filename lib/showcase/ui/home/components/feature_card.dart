@@ -69,20 +69,19 @@ class _WorkCardHeader extends ConsumerWidget with UiDimension, UiUtility {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              imagePath,
-              width: 75,
-              height: 75,
-            ),
-            smallDivider,
-            Text(
-              title,
-              style: context.textTheme.titleLarge,
-            ),
-          ],
+        ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 150),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _ShowcaseWorkLogo(imagePath: imagePath),
+              smallDivider,
+              Text(
+                title,
+                style: context.textTheme.titleLarge,
+              ),
+            ],
+          ),
         ),
         mediumDivider,
         Expanded(
@@ -94,6 +93,24 @@ class _WorkCardHeader extends ConsumerWidget with UiDimension, UiUtility {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ShowcaseWorkLogo extends StatelessWidget {
+  const _ShowcaseWorkLogo({
+    required this.imagePath,
+  });
+
+  static const size = 75.0;
+  final String imagePath;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      imagePath,
+      width: size,
+      height: size,
     );
   }
 }
