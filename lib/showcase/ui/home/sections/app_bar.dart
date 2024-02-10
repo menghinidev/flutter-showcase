@@ -90,3 +90,39 @@ class _HomePageAppBar extends ConsumerState<HomePageAppBar> with UiUtility, Anim
     );
   }
 }
+
+class RoundedHomePageAppBar extends ConsumerWidget with UiUtility, UiShape implements PreferredSizeWidget {
+  const RoundedHomePageAppBar({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final localization = ref.watch(appLocalizationsProvider);
+    return AppBar(
+      title: Text(localization.title),
+      shape: bottomRounded,
+      elevation: elevation,
+      automaticallyImplyLeading: false,
+      actions: [
+        IconButton.outlined(
+          icon: const Icon(
+            Icons.settings,
+            semanticLabel: 'Settings',
+          ),
+          onPressed: () => ref.logMessage('Go to settings'),
+        ),
+        smallDivider,
+        IconButton.outlined(
+          icon: const Icon(
+            Icons.info,
+            semanticLabel: 'Info',
+          ),
+          onPressed: () => ref.logMessage('Go to info'),
+        ),
+        smallDivider,
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
