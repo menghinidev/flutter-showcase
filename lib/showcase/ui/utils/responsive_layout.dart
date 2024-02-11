@@ -15,7 +15,7 @@ class DeviceLayoutDelegate extends StatelessWidget {
     if (width <= mobileThreshold) {
       return onMobile(context);
     } else if (width <= tabletThreshold) {
-      if (onTablet != null) onTablet!(context);
+      if (onTablet != null) onTablet?.call(context);
       return onMobile(context);
     } else if (width > tabletThreshold && onDesktop != null) {
       return onDesktop!(context);
