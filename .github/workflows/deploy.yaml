@@ -21,4 +21,5 @@ jobs:
         with:
           webRenderer: canvaskit
           baseHref: /flutter-showcase/
+          customArgs: --dart-define="SENTRY_DSN={{ secrets.SENTRY_DSN }}" --dart-define="ENV=Prod"
         
