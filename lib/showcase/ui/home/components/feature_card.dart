@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sandbox/showcase/model/showcase_work/showcasework.dart';
 import 'package:sandbox/showcase/ui/utils/ui_utility.dart';
-import 'package:url_launcher/link.dart';
+import 'package:sandbox/utils/router/showcase_router.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ShowcaseWorkCard extends ConsumerWidget with UiDimension, UiUtility {
   const ShowcaseWorkCard({
@@ -127,14 +128,10 @@ class _WorkCardActionBar extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (work.detailsUrl != null)
-          Link(
-            uri: Uri.tryParse(work.detailsUrl!),
-            target: LinkTarget.blank,
-            builder: (context, followLink) => FilledButton.icon(
-              onPressed: followLink,
-              icon: const Icon(Icons.info),
-              label: const Text('Dettagli'),
-            ),
+          FilledButton.icon(
+            onPressed: () => ref.routerProvider.go(work.detailsUrl!),
+            icon: const Icon(Icons.info),
+            label: const Text('Dettagli'),
           ),
       ],
     );
@@ -167,22 +164,24 @@ class _WorkBadgeWidget extends ConsumerWidget with UiUtility, UiDimension, UiSha
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Link(
-      uri: Uri.tryParse(badge.navigateToUrl ?? ''),
-      target: LinkTarget.blank,
-      builder: (context, followLink) => InkWell(
-        onTap: followLink,
-        customBorder: roundedShape,
-        child: Ink(
-          padding: smallHorizontalPadding.add(extraSmallPadding),
-          decoration: BoxDecoration(
-            borderRadius: roundedBorderRadius,
-            color: Theme.of(context).colorScheme.secondaryContainer,
-          ),
-          child: Text(
-            badge.label,
-            style: context.textTheme.labelMedium,
-          ),
+    return InkWell(
+      onTap: () {
+        if (badge.navigateToUrl?.startsWith('https') ?? false) {
+          launchUrlString(badge.navigateToUrl!);
+        } else {
+          ref.routerProvider.go(badge.navigateToUrl!);
+        }
+      },
+      customBorder: roundedShape,
+      child: Ink(
+        padding: smallHorizontalPadding.add(extraSmallPadding),
+        decoration: BoxDecoration(
+          borderRadius: roundedBorderRadius,
+          color: Theme.of(context).colorScheme.secondaryContainer,
+        ),
+        child: Text(
+          badge.label,
+          style: context.textTheme.labelMedium,
         ),
       ),
     );

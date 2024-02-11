@@ -51,6 +51,7 @@ class HomePage extends HookConsumerWidget with UiUtility, UiShape {
           maxChildSize: 0.7,
           snap: true,
           snapSizes: const [0.1],
+          shouldCloseOnMinExtent: false,
           builder: (context, scrollController) => Container(
             decoration: BoxDecoration(
               color: Colors.white,
